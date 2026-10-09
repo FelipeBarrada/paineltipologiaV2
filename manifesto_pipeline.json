@@ -1,0 +1,12 @@
+{
+  "executado_em": "2026-09-30T14:42:16",
+  "duracao_segundos": 4278.99,
+  "saida_final": "C:\\Users\\felipe.cordeiro\\Ministério da Gestão e da Inovação dos Serv. Pub\\SETE MGI - Documentos\\4. Projetos\\1. Federativo\\ENAP Tipologia de municípios\\Pipeline\\saida_final",
+  "comparacao_entre_pares": {
+    "planilha": "C:\\Users\\felipe.cordeiro\\Ministério da Gestão e da Inovação dos Serv. Pub\\SETE MGI - Documentos\\4. Projetos\\1. Federativo\\ENAP Tipologia de municípios\\Pipeline\\entradas_adicionais\\municipios_capacidade_entrega_pares.xlsx",
+    "municipios": 5125,
+    "etapa": "03b_IncorporarPares"
+  },
+  "entrega_modificada": false,
+  "painel_publicado_modificado": false
+}

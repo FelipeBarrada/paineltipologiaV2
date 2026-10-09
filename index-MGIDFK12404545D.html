@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Capacidade estatal e entrega nos municípios brasileiros</title>
+<!-- PAINEL_V10_REBRAND PAINEL_V11 -->
+<style>
+:root{
+  --navy:#071d41;--navy2:#0c326f;--blue:#1351b4;--blue-soft:#e8f1ff;
+  --ink:#0f2341;--muted:#5c6b7d;--line:#dde5ee;--bg:#eef2f7;--card:#fff;--soft:#f5f8fb;
+  --q1:#009E73;--q2:#E69F00;--q3:#0072B2;--q4:#D55E00;--nd:#c9d1d9;
+  --cap:#1351b4;--ent:#0c326f;--shadow:0 6px 22px rgba(7,29,65,.07);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font:14px/1.45 "Segoe UI",Inter,Verdana,Arial,sans-serif;color:var(--ink);background:var(--bg);overflow:hidden}
+button,input,select{font:inherit}
+.hidden{display:none!important}
+.top{height:68px;display:flex;align-items:center;gap:22px;padding:0 24px;background:var(--navy);color:#fff}
+.brand{display:flex;align-items:center;gap:16px;min-width:0}
+.brand-org{padding-right:16px;border-right:1px solid rgba(255,255,255,.25);font-size:11px;line-height:1.25;color:#cfdcf0;max-width:190px}
+.brand h1{margin:0;font-size:19px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{display:block;color:#b9c9e3;font-size:11.5px}
+.menu{display:flex;gap:4px;margin-left:auto}
+.menu button{height:68px;padding:0 13px;border:0;border-bottom:3px solid transparent;background:none;color:#cfdcf0;font-size:13px;cursor:pointer}
+.menu button:hover{color:#fff}
+.menu button.active{color:#fff;font-weight:700;border-bottom-color:#6ea8ff}
+.cta{height:38px;padding:0 16px;border:1px solid rgba(255,255,255,.7);border-radius:20px;background:none;color:#fff;font-weight:700;cursor:pointer;white-space:nowrap}
+.cta:hover{background:rgba(255,255,255,.1)}
+.bar{height:62px;display:flex;align-items:center;gap:10px;padding:0 20px;background:#fff;border-bottom:1px solid var(--line)}
+.search{position:relative;flex:0 1 300px;min-width:200px}
+.search input{width:100%;height:40px;padding:0 14px 0 36px;border:1px solid var(--line);border-radius:10px;background:#fff;outline:none}
+.search input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(19,81,180,.14)}
+.search::before{content:"";position:absolute;left:13px;top:13px;width:10px;height:10px;border:2px solid var(--blue);border-radius:50%}
+.search::after{content:"";position:absolute;left:24px;top:25px;width:6px;height:2px;background:var(--blue);transform:rotate(45deg)}
+.sugg{position:absolute;z-index:60;top:46px;left:0;width:100%;max-height:330px;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 34px rgba(7,29,65,.16);display:none}
+.sugg button{display:block;width:100%;padding:9px 13px;border:0;border-bottom:1px solid #eef2f6;background:#fff;text-align:left;cursor:pointer}
+.sugg button:hover,.sugg button.on{background:var(--blue-soft)}
+.sugg strong{display:block;font-size:13px}.sugg small{color:var(--muted);font-size:11px}
+.seg{display:flex;padding:3px;border:1px solid var(--line);border-radius:12px;background:#f2f5f9}
+.seg button{height:34px;padding:0 15px;border:0;border-radius:9px;background:none;color:#3d4f66;font-weight:600;cursor:pointer;white-space:nowrap}
+.seg button.active{background:var(--blue);color:#fff;box-shadow:0 3px 9px rgba(19,81,180,.25)}
+.selects{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:0}
+.selects label{position:relative;display:flex;align-items:center;border-right:1px solid var(--line)}
+.selects label:last-child{border-right:0}
+.selects select{height:40px;max-width:170px;padding:0 28px 0 12px;border:0;background:#fff;color:var(--ink);appearance:none;cursor:pointer;outline:none}
+.selects select.set{background:var(--blue-soft);color:var(--navy2);font-weight:700}
+.selects label::after{content:"";position:absolute;right:11px;top:16px;width:6px;height:6px;border-right:2px solid #6a7a8d;border-bottom:2px solid #6a7a8d;transform:rotate(45deg);pointer-events:none}
+.clear{margin-left:auto;height:38px;padding:0 14px;border:1px solid #bcd0ec;border-radius:10px;background:#f4f8ff;color:var(--blue);font-weight:700;cursor:pointer;white-space:nowrap}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 250px 430px;gap:14px;height:calc(100vh - 130px);padding:14px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);min-height:0}
+.map-card{position:relative;display:flex;flex-direction:column;overflow:hidden}
+.map-head{padding:16px 18px 6px}
+.map-head h2{margin:0;font-size:18px;color:var(--navy)}
+.map-head p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+.map-wrap{position:relative;flex:1;min-height:0;margin:6px 10px 10px;border-radius:12px;background:radial-gradient(circle at 45% 40%,#f7fbfe 0,#e9f1f7 60%,#dfe8f1 100%);overflow:hidden}
+#map{display:block;width:100%;height:100%;cursor:grab}
+#map.drag{cursor:grabbing}
+.zoom{position:absolute;left:12px;top:12px;display:flex;flex-direction:column;gap:6px}
+.zoom button{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--navy);font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(7,29,65,.08)}
+.zoom button:hover{background:var(--blue-soft)}
+.tip{position:fixed;z-index:80;pointer-events:none;opacity:0;max-width:280px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;box-shadow:0 10px 26px rgba(7,29,65,.18);font-size:12px;transition:opacity .08s}
+.tip strong{display:block;font-size:13px;margin-bottom:2px}
+.peer-pill{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:none;align-items:center;gap:10px;padding:8px 12px;border:1px solid #c9d8ea;border-radius:22px;background:rgba(255,255,255,.96);box-shadow:0 8px 24px rgba(7,29,65,.14);font-size:12px;color:#29435f;white-space:nowrap}
+.peer-pill.show{display:flex}
+.switch{position:relative;width:34px;height:19px;border:0;border-radius:10px;background:#b8c4d2;cursor:pointer}
+.switch::after{content:"";position:absolute;left:2px;top:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:left .15s}
+.switch.on{background:var(--blue)}.switch.on::after{left:17px}
+.legend{display:flex;flex-direction:column;gap:12px;overflow:auto}
+.legend .box{padding:16px}
+.legend h3{margin:0 0 10px;font-size:15px;color:var(--navy)}
+.lg-item{display:flex;gap:10px;align-items:flex-start;margin:9px 0;font-size:12.5px}
+.sym{flex:0 0 22px;height:22px;display:grid;place-items:center;border-radius:6px;color:#fff;font-size:12px;line-height:1}
+.lg-item b{display:block;font-size:12.5px}
+.lg-item div span{color:var(--muted)}
+.lg-tags{display:flex;flex-direction:column;gap:1px;margin-top:1px}.lg-item .lg-tags .tg{color:#33465e;font-size:12px;font-weight:600}
+.lg-note{display:flex;gap:8px;margin-top:10px;padding:9px 10px;border-radius:10px;background:var(--soft);color:var(--muted);font-size:11.5px}
+.cnt-row{display:grid;grid-template-columns:22px 34px 1fr auto;align-items:center;gap:7px;margin:8px 0;font-size:12px}
+.cnt-row .trk{height:7px;border-radius:5px;background:#e4eaf1;overflow:hidden}.cnt-row .trk i{display:block;height:100%;border-radius:5px}
+.cnt-tot{margin:-4px 0 6px;color:var(--muted);font-size:11.5px}
+.cnt-row em{font-style:normal;color:var(--muted);font-size:11.5px;white-space:nowrap}
+.side{display:flex;flex-direction:column;overflow:hidden}
+.side-empty{margin:auto;padding:30px;text-align:center;color:var(--muted)}
+.side-empty strong{display:block;color:var(--navy);font-size:16px;margin-bottom:6px}
+.side-head{padding:18px 20px 0}
+.side-head h2{margin:0;font-size:24px;letter-spacing:-.02em;color:var(--navy)}
+.side-head .pop{margin-top:3px;font-weight:700;font-size:13px}
+.side-head .ctx{color:var(--muted);font-size:12.5px}
+.tabs{display:flex;gap:2px;margin-top:12px;padding:0 14px;border-bottom:1px solid var(--line)}
+.tabs button{padding:10px 10px;border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);font-weight:600;cursor:pointer}
+.tabs button.active{color:var(--navy);border-bottom-color:var(--blue)}
+.side-body{flex:1;overflow:auto;padding:14px 16px 22px;background:#fafbfd}
+.card{margin:0 0 12px;padding:15px 16px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.eyebrow{display:block;color:var(--blue);font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.c-title{display:block;margin-top:2px;font-size:16px;font-weight:700;color:var(--navy)}
+.c-sub{display:block;margin-top:2px;color:var(--muted);font-size:12px}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.kpi+.kpi{padding-left:12px;border-left:1px solid var(--line)}
+.kpi-l{display:block;min-height:2.7em;font-size:12px;font-weight:700;color:#33465e}
+.kpi-v{display:block;margin-top:0;font-size:34px;font-weight:800;line-height:1;letter-spacing:-.04em;color:var(--cap)}
+.kpi.ent .kpi-v{color:var(--ent)}
+.kpi-v small{font-size:18px}
+.kpi-pre{display:block;margin-top:8px;color:#33465e;font-size:12px;font-weight:600}
+.kpi-c{display:block;margin-top:4px;color:var(--muted);font-size:11.5px}
+.kpi-none{display:block;margin-top:8px;color:var(--muted);font-weight:700}
+.trk2{position:relative;height:6px;margin-top:10px;border-radius:5px;background:#e1e8f0}
+.trk2 i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--cap)}
+.kpi.ent .trk2 i{background:var(--ent)}
+.trk2 b{position:absolute;left:50%;top:-3px;width:2px;height:12px;background:#9aa8b8;border-radius:1px}
+.qline{margin-top:10px}.qline .qb{padding:8px 10px}
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.chip{padding:8px;border-radius:10px;background:var(--soft);font-size:10.5px;color:var(--muted)}
+.chip b{display:block;margin-top:2px;color:var(--navy);font-size:12px}
+.joint-t{display:block;margin-top:4px;font-size:18px;font-weight:800;color:var(--navy)}
+.joint-p{margin:6px 0 12px;color:#41546b;font-size:12.5px}
+.flow{display:grid;grid-template-columns:1fr 20px 1fr;align-items:center;gap:6px}
+.flow>span{text-align:center;color:#8a99aa;font-weight:800}
+.qb{display:flex;gap:9px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.qb small{display:block;color:var(--muted);font-size:10.5px}
+.qb b{display:block;font-size:12px;color:var(--navy)}
+.note{color:var(--muted);font-size:12.5px;margin:6px 0 0}
+.idx-card{width:100%;margin:0 0 10px;padding:14px 15px;border:1px solid var(--line);border-left:5px solid var(--cap);border-radius:14px;background:#fff;text-align:left;cursor:pointer}
+.idx-card.ieg{border-left-color:var(--ent)}
+.idx-card:hover{background:#f6f9ff}
+.idx-card[aria-expanded="true"]{background:#eef5ff;border-color:#b9cfe8}
+.idx-top{display:flex;justify-content:space-between;gap:10px}
+.idx-top strong{font-size:14px;color:var(--navy)}
+.idx-top span{font-size:22px;font-weight:800;color:var(--cap)}
+.idx-card.ieg .idx-top span{color:var(--ent)}
+.idx-mid{margin-top:2px;color:var(--muted);font-size:12px}
+.idx-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:9px;border-top:1px solid var(--line);color:var(--blue);font-weight:700;font-size:12.5px}
+.idx-foot i{font-style:normal;padding:3px 10px;border:1px solid currentColor;border-radius:12px;font-size:11.5px}
+.idx-detail{margin:-4px 0 12px;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
+.idx-detail .dnote{margin:0;padding:10px 14px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--line);background:var(--soft)}
+.dim{border-bottom:1px solid var(--line)}
+.dim:last-child{border-bottom:0}
+.dim>summary{display:flex;justify-content:space-between;padding:11px 14px;cursor:pointer;list-style:none;font-weight:700;color:var(--navy2);background:#f2f6fb}
+.dim>summary::-webkit-details-marker{display:none}
+.dim>summary em{font-style:normal;padding:1px 8px;border-radius:10px;background:#dbe7f7;font-size:11px}
+.grp{padding:8px 14px 2px;color:#55667c;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+.mv{padding:9px 14px;border-top:1px solid #eef2f6}
+.mv-h{display:flex;justify-content:space-between;gap:12px}
+.mv-h strong{font-size:12.5px;font-weight:600}
+.mv-h span{flex:0 0 auto;color:var(--blue);font-weight:800}
+.mv small{display:block;margin-top:2px;color:var(--muted);font-size:11px}
+.mv .obs{margin-top:5px;padding:6px 8px;border-left:3px solid #E69F00;border-radius:6px;background:#fff7e6;color:#6b4a00;font-size:11px}
+.loading{padding:16px;text-align:center;color:var(--muted)}
+.hist{margin-top:14px}.hist .kpi-l{min-height:0}.hist-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.hist-h b{color:var(--cap);font-size:12.5px}.hist.ent .hist-h b{color:var(--ent)}
+.hist-bars{position:relative;display:flex;align-items:flex-end;gap:2px;height:60px;margin-top:8px;border-bottom:1px solid #b9c5d3}
+.hist-bars i{flex:1;border-radius:3px 3px 0 0;background:#d3dce7}.hist.cap .hist-bars i.on{background:var(--cap)}.hist.ent .hist-bars i.on{background:var(--ent)}
+.hist-med{position:absolute;left:50%;top:-4px;bottom:0;border-left:1.5px dashed #7d8da0}
+.hist-ax{display:flex;justify-content:space-between;margin-top:3px;color:var(--muted);font-size:10.5px}
+.peer-list button{display:grid;grid-template-columns:22px 1fr auto;gap:9px;align-items:center;width:100%;padding:9px 4px;border:0;border-bottom:1px solid #eef2f6;background:none;text-align:left;cursor:pointer}
+.peer-list button:hover{background:#f6f9ff}
+.peer-list b{font-size:12.5px}.peer-list small{display:block;color:var(--muted);font-size:11px}
+.peer-list em{font-style:normal;color:var(--blue);font-weight:700;font-size:12px}
+.linkbtn.on{background:var(--blue);color:#fff}
+.linkbtn{margin-top:12px;padding:8px 12px;border:1px solid var(--blue);border-radius:10px;background:#fff;color:var(--blue);font-weight:700;cursor:pointer}
+.d-tools{display:flex;gap:8px;margin-bottom:10px}
+.d-tools input{flex:1;height:38px;padding:0 12px;border:1px solid var(--line);border-radius:10px;outline:none}
+.d-tools button{height:38px;padding:0 13px;border:0;border-radius:10px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}
+.fam{margin:0 0 8px;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
+.fam>summary{display:flex;justify-content:space-between;padding:11px 13px;cursor:pointer;list-style:none;font-weight:700;color:var(--navy)}
+.fam>summary::-webkit-details-marker,.thm>summary::-webkit-details-marker{display:none}
+.fam>summary em,.thm>summary em{font-style:normal;padding:1px 8px;border-radius:10px;background:#eef2f6;color:#415164;font-size:11px}
+.thm{margin:0 10px 8px;border:1px solid #e6ecf2;border-radius:10px}
+.thm>summary{display:flex;justify-content:space-between;padding:9px 11px;cursor:pointer;list-style:none;font-size:12.5px;font-weight:600;background:#f7f9fc}
+.var{padding:9px 11px;border-top:1px solid #eef2f6}
+.var strong{display:block;font-size:12.5px;font-weight:600}
+.var .val{color:var(--blue);font-weight:800;margin:2px 0}
+.var small{color:var(--muted);font-size:11px}
+.page{position:fixed;z-index:40;top:68px;left:0;right:0;bottom:0;overflow:auto;background:var(--bg)}
+.page-in{max-width:880px;margin:28px auto 60px;padding:34px 40px;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}
+.page h2{margin:0 0 6px;font-size:26px;color:var(--navy)}
+.page h3{margin:26px 0 8px;font-size:17px;color:var(--navy)}
+.page p,.page li{color:#2c3e55;line-height:1.65}
+.page ul,.page ol{padding-left:22px}
+.page table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}
+.page th,.page td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+.page th{background:var(--soft);color:var(--navy)}
+.page .lead{font-size:15px;color:#41546b}
+.faq{border-bottom:1px solid var(--line)}
+.faq>summary{padding:14px 0;cursor:pointer;font-weight:700;color:var(--navy);list-style:none}
+.faq>summary::-webkit-details-marker{display:none}
+.faq>summary::before{content:"+";display:inline-block;width:18px;color:var(--blue)}
+.faq[open]>summary::before{content:"\2013"}
+.faq p{margin:0 0 14px 18px}
+.modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(7,29,65,.55)}
+.modal[hidden]{display:none}
+.modal-box{width:min(600px,100%);padding:28px 30px;border-radius:18px;background:#fff;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.modal-box h2{margin:0 0 8px;color:var(--navy)}
+.modal-box li{margin:6px 0;color:#2c3e55}
+.modal-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px}
+.modal-actions label{font-size:12px;color:var(--muted)}
+.modal-actions button{height:42px;padding:0 20px;border:0;border-radius:10px;background:var(--blue);color:#fff;font-weight:700;cursor:pointer}
+.foot{position:fixed;right:20px;bottom:2px;color:#8090a3;font-size:10.5px}
+@media(max-width:1350px){.main{grid-template-columns:minmax(0,1fr) 400px}.legend{display:none}.map-card .mini-legend{display:flex}}
+.mini-legend{display:none;position:absolute;right:12px;top:12px;flex-direction:column;gap:4px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.95);font-size:11px}
+.mini-legend div{display:flex;gap:6px;align-items:center}
+.mini-legend .sym{flex:0 0 16px;height:16px;font-size:9px;border-radius:4px}
+@media(max-width:1100px){.bar{height:auto;flex-wrap:wrap;padding:10px}.main{height:auto;grid-template-columns:1fr}body{overflow:auto}.map-card{height:70vh}.side{max-height:none}.brand h1{font-size:16px}.menu button{padding:0 8px}}
+
+/* PAINEL_V11 */
+.side-head{position:relative}.side-head h2{padding-right:42px}
+.side-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border:1px solid var(--line);border-radius:50%;background:#fff;color:#41546b;font-size:20px;line-height:1;cursor:pointer}
+.side-close:hover{background:var(--blue-soft);color:var(--navy)}
+.pop .sep{margin:0 6px;color:#9aa8b8;font-weight:400}
+.chips{grid-template-columns:repeat(3,1fr)!important}
+.idx-val{margin-top:6px;font-size:30px;font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--cap)}
+.idx-card.ieg .idx-val{color:var(--ent)}
+.idx-card .idx-mid{margin-top:6px;font-size:12.5px;color:#41546b}
+.idx-card .idx-mid b{color:var(--navy)}
+.map-toast{position:absolute;left:58px;top:12px;max-width:340px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;box-shadow:0 8px 22px rgba(7,29,65,.14);font-size:12px;color:#29435f;opacity:0;transition:opacity .2s;pointer-events:none}
+.map-toast.show{opacity:1}
+.zoom button.busy{animation:geoPulse 1s infinite}
+@keyframes geoPulse{50%{background:var(--blue-soft)}}
+
+/* PAINEL_V12 */
+.rs-head{padding:16px 18px 10px;border-bottom:1px solid var(--line)}
+.rs-head h2{margin:0;font-size:22px;color:var(--navy)}
+.rs-head p{margin:2px 0 0;color:var(--muted);font-size:12px}
+.rs-body{flex:1;overflow:auto;padding:12px 14px 20px;background:#fafbfd}
+.rs-body .card{padding:13px 14px}
+.rs-t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.rs-t .eyebrow{margin:0}
+.rs-hint{color:#8a97a6;font-size:10.5px;font-weight:500}
+.rs-k3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rs-k3 b{display:block;font-size:21px;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+.rs-k3 span{font-size:11px;color:var(--muted)}
+.rs-dual{display:grid;grid-template-columns:22px 1fr 1fr;gap:6px 10px;align-items:center;font-size:11px}
+.rs-dual .h{color:var(--muted);font-size:10.5px;font-weight:700}
+.rs-bar{display:grid;grid-template-columns:1fr 34px;gap:5px;align-items:center}
+.rs-tr{height:8px;border-radius:4px;background:#e4eaf1;overflow:hidden}.rs-tr i{display:block;height:100%;border-radius:4px}
+.rs-bar em{font-style:normal;color:#33465e;font-size:11px}
+.rs-sit{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.rs-sit button{padding:8px 10px;border:1px solid transparent;border-radius:10px;background:var(--soft);text-align:left;cursor:pointer;color:#41546b;font-size:11.5px}
+.rs-sit button:hover{border-color:#bcd0ec;background:var(--blue-soft)}
+.rs-sit button.on{border-color:var(--blue);background:var(--blue-soft)}
+.rs-sit b{display:block;font-size:18px;color:var(--navy)}
+.rs-row{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;margin:6px 0;font-size:12px}
+.rs-row b{color:var(--navy)}
+.rs-reg{display:grid;grid-template-columns:110px 1fr 40px;gap:8px;align-items:center;margin:6px 0;font-size:12px}
+.rs-reg.me{font-weight:800}
+.rs-case{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;padding:8px 2px;border:0;border-bottom:1px solid #eef2f6;background:none;text-align:left;cursor:pointer}
+.rs-case:hover{background:#f6f9ff}
+.rs-case b{font-size:12.5px;color:var(--navy)}.rs-case small{display:block;color:var(--muted);font-size:11px}
+.rs-case em{font-style:normal;color:var(--blue);font-weight:700;font-size:11.5px;white-space:nowrap}
+.rs-more{margin-top:10px;padding:7px 12px;border:1px solid var(--blue);border-radius:9px;background:#fff;color:var(--blue);font-weight:700;cursor:pointer}
+.rs-more:hover{background:var(--blue-soft)}
+.rs-near{display:flex;gap:12px;align-items:center}.rs-near b{font-size:24px;color:var(--navy);white-space:nowrap}.rs-near span{font-size:12px;color:var(--muted)}
+.rs-empty{color:var(--muted);font-size:12px;margin:4px 0}
+.rs-modal{position:fixed;inset:0;z-index:120;display:flex;align-items:stretch;justify-content:center;padding:28px;background:rgba(7,29,65,.55)}
+.rs-modal[hidden]{display:none}
+.rs-mbox{display:flex;flex-direction:column;width:min(1100px,100%);border-radius:16px;background:#fff;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.rs-mhead{display:flex;justify-content:space-between;gap:16px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.rs-mhead h2{margin:0;font-size:20px;color:var(--navy)}.rs-mhead p{margin:3px 0 0;color:var(--muted);font-size:12.5px}
+.rs-x{flex:0 0 38px;height:38px;border:1px solid var(--line);border-radius:50%;background:#fff;font-size:22px;line-height:1;cursor:pointer;color:#41546b}
+.rs-x:hover{background:var(--blue-soft)}
+.rs-mtools{display:flex;gap:10px;align-items:center;padding:12px 22px;border-bottom:1px solid var(--line);background:var(--soft)}
+.rs-mtools input,.rs-mtools select{height:38px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.rs-mtools input{flex:1}
+.rs-mtools span{color:var(--muted);font-size:12px;white-space:nowrap}
+.rs-mbody{flex:1;overflow:auto}
+.rs-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.rs-table th{position:sticky;top:0;z-index:1;padding:9px 12px;background:#fff;border-bottom:2px solid var(--line);color:#41546b;text-align:left;font-size:11.5px;cursor:pointer;white-space:nowrap}
+.rs-table th.num,.rs-table td.num{text-align:right}
+.rs-table td{padding:8px 12px;border-bottom:1px solid #eef2f6}
+.rs-table tbody tr{cursor:pointer}.rs-table tbody tr:hover{background:#f3f8ff}
+.rs-table .q{display:inline-flex;gap:6px;align-items:center}
+.rs-table .sym{flex:0 0 18px;height:18px;font-size:10px;border-radius:5px}
+</style>
+</head>
+<body>
+
+<div class="modal" id="aviso" role="dialog" aria-modal="true" aria-labelledby="avisoT">
+  <div class="modal-box">
+    <h2 id="avisoT">Antes de começar</h2>
+    <p>Este painel apresenta um estudo exploratório sobre capacidade estatal e entrega nos municípios.</p>
+    <ul>
+      <li>Não é um ranking e não avalia gestores ou mandatos.</li>
+      <li>O contexto de cada município pesa muito nos resultados.</li>
+      <li>Municípios perto dos cortes podem mudar de quadrante por pequenas diferenças.</li>
+      <li>Cinza no mapa significa falta de dado, não resultado baixo.</li>
+      <li>Não use o painel sozinho para definir repasses, sanções ou premiações.</li>
+    </ul>
+    <div class="modal-actions">
+      <label><input type="checkbox" id="avisoLembrar" /> Não mostrar novamente</label>
+      <button id="avisoOk" type="button">Entendi</button>
+    </div>
+  </div>
+</div>
+
+<header class="top">
+  <div class="brand">
+    <div class="brand-org">Ministério da Gestão e da Inovação em Serviços Públicos</div>
+    <div><h1>Capacidade estatal e entrega nos municípios brasileiros</h1><small>Painel municipal · dados do estudo da Enap · versão 13</small></div>
+  </div>
+  <nav class="menu" aria-label="Seções">
+    <button class="active" data-page="mapa" type="button">Mapa</button>
+    <button data-page="sobre" type="button">Sobre o estudo</button>
+    <button data-page="metodo" type="button">Metodologia</button>
+    <button data-page="faq" type="button">Perguntas frequentes</button>
+  </nav>
+</header>
+
+<div class="bar">
+  <div class="search">
+    <input id="mq" autocomplete="off" placeholder="Buscar município ou código IBGE" aria-label="Buscar município" />
+    <div class="sugg" id="sugg"></div>
+  </div>
+  <div class="seg" role="group" aria-label="Régua de comparação">
+    <button class="active" data-ruler="nacional" type="button">Régua nacional</button>
+    <button data-ruler="pares" type="button">Entre pares</button>
+  </div>
+  <div class="selects">
+    <label><select id="reg" aria-label="Região"><option value="">Brasil</option></select></label>
+    <label><select id="uf" aria-label="Estado"><option value="">Estado</option></select></label>
+    <label><select id="porte" aria-label="Porte"><option value="">Porte</option></select></label>
+    <label><select id="pib" aria-label="PIB per capita"><option value="">PIB per capita</option><option value="1">Até R$ 15,6 mil</option><option value="2">R$ 15,6 a 24,4 mil</option><option value="3">R$ 24,4 a 37,8 mil</option><option value="4">R$ 37,8 a 56,7 mil</option><option value="5">Acima de R$ 56,7 mil</option></select></label>
+    <label><select id="quad" aria-label="Quadrante"><option value="">Quadrante</option><option value="Q1">● Q1 · Alta capac. / alta entrega</option><option value="Q2">▲ Q2 · Alta capac. / baixa entrega</option><option value="Q3">◆ Q3 · Baixa capac. / alta entrega</option><option value="Q4">■ Q4 · Baixa capac. / baixa entrega</option></select></label>
+    <label><select id="joint" aria-label="Leitura conjunta"><option value="">Leitura conjunta</option><option>Supera as condições</option><option>Abaixo do potencial</option><option>Frágil nas duas réguas</option><option>Destaque nas duas réguas</option><option value="Demais">Outras combinações</option></select></label>
+  </div>
+  <button class="clear" id="clear" type="button">Limpar filtros</button>
+</div>
+
+<main class="main">
+  <section class="panel map-card">
+    <div class="map-head"><h2 id="mapTitle">Mapa dos quadrantes</h2><p id="mapSub">Clique em um município para ver os detalhes.</p></div>
+    <div class="map-wrap" id="mapWrap">
+      <canvas id="map"></canvas>
+      <div class="zoom"><button id="zin" type="button" aria-label="Aproximar">+</button><button id="zout" type="button" aria-label="Afastar">−</button><button id="zfit" type="button" title="Ver o Brasil inteiro" aria-label="Ver o Brasil inteiro"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button id="zgeo" type="button" title="Usar minha localização" aria-label="Usar minha localização"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></button></div>
+      <div class="mini-legend" id="miniLegend"></div>
+      <div class="peer-pill" id="peerPill"><span id="peerPillText"></span><button class="switch on" id="peerSwitch" type="button" aria-label="Destacar pares"></button></div>
+    </div>
+  </section>
+
+  <aside class="legend">
+    <div class="panel box">
+      <h3 id="lgTitle">Legenda · régua nacional</h3>
+      <div id="lgItems"></div>
+      <div class="lg-note">ⓘ <span>Cinza indica falta de dado, não valor baixo.</span></div>
+    </div>
+    <div class="panel box">
+      <h3>Quantidade de municípios</h3>
+      <div id="counts"></div>
+      <div class="lg-note">ⓘ <span>A área no mapa não representa quantidade de municípios nem população.</span></div>
+    </div>
+  </aside>
+
+  <aside class="panel side" id="side">
+    <div class="side-empty"><strong>Escolha um município</strong>Use a busca ou clique no mapa.</div>
+  </aside>
+</main>
+
+<div class="tip" id="tip"></div>
+<div class="rs-modal" id="rsModal" hidden role="dialog" aria-modal="true" aria-labelledby="rsMT">
+  <div class="rs-mbox">
+    <div class="rs-mhead"><div><h2 id="rsMT"></h2><p id="rsMS"></p></div><button class="rs-x" id="rsX" type="button" aria-label="Fechar">×</button></div>
+    <div class="rs-mtools"><input id="rsQ" placeholder="Buscar município ou UF" /><select id="rsUF"><option value="">Todos os estados do recorte</option></select><span id="rsN"></span></div>
+    <div class="rs-mbody"><table class="rs-table"><thead id="rsTH"></thead><tbody id="rsTB"></tbody></table></div>
+  </div>
+</div>
+
+
+<section class="page hidden" id="page-sobre"><div class="page-in">
+  <h2>Sobre o estudo</h2>
+  <p class="lead">Este painel apresenta os resultados do estudo <em>Capacidade estatal e entrega nos municípios brasileiros</em>, elaborado pela Coordenação-Geral de Ciência de Dados da Escola Nacional de Administração Pública (Enap) em setembro de 2026. O painel foi desenvolvido pelo Ministério da Gestão e da Inovação em Serviços Públicos (MGI).</p>
+  <h3>A pergunta por trás do estudo</h3>
+  <p>As políticas federais são executadas por milhares de municípios muito diferentes entre si. Um programa que funciona bem em uma capital pode ter dificuldade em um município pequeno, muitas vezes não por falta de vontade, mas porque falta a estrutura administrativa que o programa pressupõe.</p>
+  <p>O estudo separa duas perguntas:</p>
+  <ul><li><strong>O município tem condições de executar políticas públicas?</strong></li><li><strong>Os serviços e os resultados estão chegando à população?</strong></li></ul>
+  <h3>Duas medidas, não uma</h3>
+  <p><strong>Índice de Capacidade Estatal (ICE).</strong> Reúne 41 itens sobre a estrutura da prefeitura: quadro de servidores, arrecadação própria, cadastros tributários, controle interno, legislação urbana, conselhos, conferências e consórcios.</p>
+  <p><strong>Índice de Entrega Governamental (IEG).</strong> Reúne 7 indicadores sobre o que chega à população: água, esgoto, coleta de lixo, IDEB, creche, idade média ao morrer e pobreza.</p>
+  <p>As duas medidas são separadas de propósito. Um município pode ter boa estrutura e entregar pouco. Outro pode entregar bem com estrutura modesta, por exemplo com apoio do estado ou por causa de infraestrutura construída há décadas. Um ranking único misturaria essas situações.</p>
+  <h3>Quatro situações</h3>
+  <p>Cruzando as duas medidas, cada município fica em um de quatro quadrantes:</p>
+  <table><thead><tr><th>Quadrante</th><th>Situação</th><th>Municípios</th><th>População</th></tr></thead><tbody>
+  <tr><td>● Q1</td><td>Alta capacidade e alta entrega</td><td>1.677 (32,7%)</td><td>61,6%</td></tr>
+  <tr><td>▲ Q2</td><td>Alta capacidade e baixa entrega</td><td>886 (17,3%)</td><td>23,1%</td></tr>
+  <tr><td>◆ Q3</td><td>Baixa capacidade e alta entrega</td><td>886 (17,3%)</td><td>3,8%</td></tr>
+  <tr><td>■ Q4</td><td>Baixa capacidade e baixa entrega</td><td>1.676 (32,7%)</td><td>11,5%</td></tr></tbody></table>
+  <p>Os quadrantes Q2 e Q3 costumam ser os mais informativos, porque mostram onde estrutura e resultado não andam juntos.</p>
+  <h3>Duas réguas de comparação</h3>
+  <p><strong>Régua nacional.</strong> Compara cada município com todos os municípios classificados do país.</p>
+  <p><strong>Entre pares.</strong> Compara cada município apenas com municípios de riqueza e porte parecidos. Isso permite ver quem faz mais, ou menos, do que suas condições sugerem.</p>
+  <h3>Para que serve</h3>
+  <p>O painel ajuda a decidir <strong>onde olhar e com que pergunta</strong>: identificar municípios que merecem atenção, encontrar casos para estudar e formular hipóteses sobre o que diferencia um município do outro.</p>
+  <p>Ele não substitui o conhecimento de campo e não avalia o desempenho de gestores.</p>
+</div></section>
+
+<section class="page hidden" id="page-metodo"><div class="page-in">
+  <h2>Metodologia</h2>
+  <h3>De onde vêm os dados</h3>
+  <ul>
+    <li>Pesquisa de Informações Básicas Municipais (MUNIC) e seus suplementos de Saneamento (2023) e de Segurança Alimentar (2024), do IBGE</li>
+    <li>Censo Demográfico 2022 e estimativas populacionais, do IBGE</li>
+    <li>Sistema de Informações Contábeis e Fiscais do Setor Público (SICONFI), do Tesouro Nacional</li>
+    <li>Relação Anual de Informações Sociais (RAIS), do Ministério do Trabalho</li>
+    <li>Índice de Desenvolvimento da Educação Básica (IDEB), do INEP</li>
+    <li>Índice de Desenvolvimento Sustentável das Cidades (IDSC)</li>
+  </ul>
+  <p>Os dados vão de 2019 a 2024, conforme a fonte. Vários itens de capacidade vêm da MUNIC 2019 e da RAIS 2020.</p>
+  <h3>Como se chegou às 48 variáveis</h3>
+  <p>Foram catalogadas 10.012 variáveis. A seleção seguiu quatro critérios, nesta ordem:</p>
+  <ol><li><strong>Pertinência:</strong> a variável mede estrutura da prefeitura ou resultado para a população?</li><li><strong>Cobertura:</strong> a informação existe para pelo menos 90% dos municípios?</li><li><strong>Diferenciação:</strong> a variável separa municípios? Itens que quase todos têm, ou quase nenhum tem, foram descartados.</li><li><strong>Contribuição:</strong> quanto cada item pesa no índice.</li></ol>
+  <h3>O que entra em cada índice</h3>
+  <p><strong>ICE, dimensão técnico-administrativa (14 itens).</strong> Autonomia fiscal, receita própria por habitante, salário médio dos servidores, servidores com ensino superior, servidores estatutários, concurso recente, serviços digitais, cadastro imobiliário, planta genérica de valores, cadastro do ISS e quatro itens de controle interno.</p>
+  <p><strong>ICE, dimensão político-institucional (27 itens).</strong> Nove leis urbanísticas, nove conselhos municipais não obrigatórios, três conferências e seis áreas de consórcio público.</p>
+  <p><strong>IEG, cobertura de infraestrutura (3 itens).</strong> Água pela rede geral, esgotamento sanitário e coleta de lixo.</p>
+  <p><strong>IEG, resultado de bem-estar (4 itens).</strong> IDEB dos anos iniciais, atendimento em creche, idade média ao morrer e pobreza.</p>
+  <p>A pobreza é estimada a partir da renda média e da variação de renda publicadas pelo Censo 2022, porque o Censo não publica a faixa de renda por município. Comparada com a mediana do IBGE, a estimativa tem erro relativo mediano de 16,2%.</p>
+  <h3>Como os índices são calculados</h3>
+  <p>As variáveis de cada dimensão são combinadas por análise fatorial, uma técnica que identifica o que um conjunto de variáveis tem em comum. Para respostas de sim ou não, usou-se a versão adequada a dados categóricos.</p>
+  <p>O resultado é expresso em desvios-padrão em relação à média nacional: zero é a média, valores positivos estão acima e negativos, abaixo. Um teste mostrou que a média simples das variáveis padronizadas produz praticamente o mesmo índice (correlação de 0,996).</p>
+  <h3>Como ler os percentuais</h3>
+  <p>Neste painel, a posição do município aparece em percentual. "Melhor que 70% dos municípios" significa que 70% dos municípios comparados têm valor menor no índice. Na régua nacional, a comparação é com todos os municípios classificados. Na régua entre pares, é com os municípios do mesmo grupo.</p>
+  <h3>Como os quadrantes são formados</h3>
+  <p>Cada índice é dividido na mediana nacional, o valor que deixa metade dos municípios de cada lado. O cruzamento das duas divisões forma os quatro quadrantes.</p>
+  <p>Os quadrantes não têm 25% dos municípios cada porque os dois índices andam juntos com frequência: quem tem mais capacidade tende a entregar mais.</p>
+  <h3>Como funciona a comparação entre pares</h3>
+  <ol><li>Os municípios são divididos em cinco faixas de PIB per capita, cada uma com um quinto deles.</li><li>Cada faixa é dividida por porte: até 10 mil habitantes, de 10 mil a 50 mil e acima de 50 mil.</li><li>Isso forma 15 grupos. Em cada grupo, aplica-se a mesma matriz, usando a mediana do grupo em vez da mediana nacional.</li></ol>
+  <p>Comparando as duas réguas, surgem quatro situações:</p>
+  <ul><li><strong>Supera as condições:</strong> está entre os mais frágeis na régua nacional, mas entre os destaques do seu grupo.</li><li><strong>Abaixo do potencial:</strong> é destaque na régua nacional, mas está entre os mais frágeis do seu grupo.</li><li><strong>Frágil nas duas réguas:</strong> abaixo do país e abaixo de municípios parecidos.</li><li><strong>Destaque nas duas réguas:</strong> acima do país e acima de municípios parecidos.</li></ul>
+  <h3>Como a qualidade foi verificada</h3>
+  <ul><li><strong>Consistência interna:</strong> as peças de cada índice apontam na mesma direção (alfa de Cronbach de 0,757 e 0,912 nas dimensões do ICE e 0,758 no IEG).</li><li><strong>Comparação com outras medidas:</strong> o ICE acompanha um índice independente de institucionalização de políticas setoriais (correlação de 0,602) e o i-GeM (0,431).</li><li><strong>Estabilidade:</strong> refazendo a análise com 80% dos municípios, 30 vezes, os resultados se repetem (concordância média de 0,944). Usar a média em vez da mediana para dividir os quadrantes mantém 97,1% dos municípios no mesmo lugar.</li></ul>
+  <h3>O que ficou de fora dos índices</h3>
+  <ul><li><strong>Contexto socioeconômico:</strong> PIB per capita, porte, IDHM e dependência de transferências descrevem as condições do município, não o que a prefeitura faz. Ficam como contexto e, no caso do PIB e do porte, formam os grupos de pares.</li><li><strong>Equipamentos públicos:</strong> contagens de CRAS, UBS e escolas por habitante medem mais a carência atendida do que a capacidade da prefeitura.</li><li><strong>Emendas parlamentares:</strong> não mostraram relação com a capacidade da prefeitura.</li></ul>
+  <h3>Limites</h3>
+  <ul><li>O índice <strong>não mede desempenho de gestor</strong>. As condições medidas se constroem ao longo de muitos anos.</li><li><strong>O contexto pesa muito.</strong> Usando só dados de contexto, como IDHM, porte, dependência de transferências, pobreza e PIB, é possível acertar o grupo de cerca de 6 em cada 10 municípios.</li><li><strong>Muitos municípios estão perto dos cortes.</strong> Cerca de 56% estão próximos de alguma das linhas que separam os quadrantes. Nesses casos, uma pequena diferença pode mudar o quadrante.</li><li><strong>Nem todos os municípios foram classificados.</strong> Ficaram de fora os que não têm dados completos nos dois índices, principalmente por falta de IDEB.</li><li><strong>Os resultados não indicam causa.</strong> Mostram associações e onde vale olhar com mais cuidado.</li></ul>
+</div></section>
+
+<section class="page hidden" id="page-faq"><div class="page-in">
+  <h2>Perguntas frequentes</h2>
+  <details class="faq"><summary>O painel mostra se a gestão atual do município é boa ou ruim?</summary><p>Não. As condições medidas se formam ao longo de muitos anos e dependem muito do contexto. Um mandato explica pouco do que aparece aqui.</p></details>
+  <details class="faq"><summary>Por que meu município aparece em cinza?</summary><p>Porque ele não tem dados completos para os dois índices. A principal causa é a falta de nota do IDEB. O município continua disponível para consulta, com as informações que existem.</p></details>
+  <details class="faq"><summary>O que significa "melhor que 70% dos municípios"?</summary><p>Que 70% dos municípios comparados têm valor menor naquele índice. Na régua nacional, a comparação é com todo o país. Na régua entre pares, é com municípios de riqueza e porte parecidos.</p></details>
+  <details class="faq"><summary>Por que o percentual muda quando troco para "Entre pares"?</summary><p>O índice do município é o mesmo. O que muda é com quem ele está sendo comparado.</p></details>
+  <details class="faq"><summary>Por que o PIB não entra nos índices?</summary><p>Porque colocar a riqueza dentro do índice misturaria duas situações diferentes: o município que tem pouca estrutura e o município que tem bons números porque o território é rico. A Enap testou quatro formas de incluir o PIB e nenhuma passou nos critérios definidos antes dos testes. Por isso, o PIB é usado para formar os grupos de comparação entre pares.</p></details>
+  <details class="faq"><summary>O que significa um município "próximo a um corte"?</summary><p>Que ele está perto de uma das linhas que separam os quadrantes. Nesses casos, uma pequena variação nos dados poderia colocá-lo em outro quadrante. Para analisar esses municípios, vale olhar o percentual, não apenas o quadrante.</p></details>
+  <details class="faq"><summary>Por que o mapa parece ter mais municípios em um quadrante do que a contagem mostra?</summary><p>Porque municípios grandes em área, como os da Amazônia, ocupam muito espaço no mapa. A área não representa quantidade de municípios nem população. Use a contagem da legenda como referência.</p></details>
+  <details class="faq"><summary>De que ano são os dados?</summary><p>Vão de 2019 a 2024, conforme a fonte. A data de cada variável aparece na aba Índices, junto com a fonte.</p></details>
+  <details class="faq"><summary>Posso baixar os dados do município?</summary><p>Sim. A aba Dados da ficha reúne a base completa do município e permite exportar em CSV.</p></details>
+  <details class="faq"><summary>Quem fez o estudo e quem fez o painel?</summary><p>O estudo foi feito pela Coordenação-Geral de Ciência de Dados da Enap. O painel foi desenvolvido pelo Ministério da Gestão e da Inovação em Serviços Públicos (MGI).</p></details>
+</div></section>
+
+<div class="foot">Fonte: Enap · Painel: Ministério da Gestão e da Inovação em Serviços Públicos</div>
+
+<script src="data/resumo.js"></script>
+<script src="data/topologia.js"></script>
+<script src="data/modelo_catalogo.js"></script>
+<script>/*CONSORCIO_DEPARA*/window.CONSORCIO_DEPARA={"consorcio_a": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.1 Educação,MART01,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_b": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.2 Saúde,MART02,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_c": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.3 Assistência e desenvolvimento social,MART03,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_d": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.7 Meio ambiente,MART07,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_e": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.9 Desenvolvimento urbano,MART09,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_f": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.10 Saneamento básico,MART10,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM"};/*FIM_CONSORCIO_DEPARA*/</script>
+<!-- PAINEL_LOADER_OTIMIZADO -->
+<script>
+(function () {
+  const META = ["k","v","d","b","g","f","c","r","w","q"];
+  const MODELO_VAR = ["valor_modelo","valor_observado","valor_exibido","tem_valor_observado","observacao","transformacao"];
+  let DIC = null, DIC_PROMISE = null;
+  const CACHE = new Map();
+  async function baixarGz(url) {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(url + " -> " + resp.status);
+    const buf = await resp.arrayBuffer();
+    const b = new Uint8Array(buf);
+    if (b[0] === 0x1f && b[1] === 0x8b) {
+      const ds = new DecompressionStream("gzip");
+      return await new Response(new Blob([buf]).stream().pipeThrough(ds)).text();
+    }
+    return new TextDecoder("utf-8").decode(buf);
+  }
+  function carregarDic() {
+    if (DIC) return Promise.resolve(DIC);
+    if (!DIC_PROMISE) {
+      DIC_PROMISE = baixarGz("data/dicionario.json.gz").then((t) => {
+        const i = t.indexOf("=");
+        DIC = JSON.parse(t.slice(i + 1).replace(/;\s*$/, ""));
+        return DIC;
+      });
+    }
+    return DIC_PROMISE;
+  }
+  async function carregarMunicipio(cod) {
+    if (CACHE.has(cod)) return CACHE.get(cod);
+    const [dic, txt] = await Promise.all([carregarDic(), baixarGz("data/mun/" + cod + ".json.gz")]);
+    const raw = JSON.parse(txt);
+    const variaveis = raw.i.map((pos, n) => {
+      const d = dic[pos], o = {};
+      for (let k = 0; k < META.length; k++) o[META[k]] = d[k];
+      o.a = d[META.length];
+      o.x = raw.x[n];
+      return o;
+    });
+    let itens = [];
+    if (raw.m && window.PAINEL_MODELO_CATALOGO) {
+      const cat = {};
+      window.PAINEL_MODELO_CATALOGO.forEach((c) => (cat[c.item_id] = c));
+      itens = raw.m.map((linha) => {
+        const it = Object.assign({}, cat[linha[0]] || {}, { item_id: linha[0] });
+        MODELO_VAR.forEach((campo, k) => { const v = linha[k + 1]; if (v !== null && v !== undefined) it[campo] = v; });
+        return it;
+      });
+    }
+    const pacote = { municipio: Object.assign({}, window.PAINEL_RESUMO[cod] || {}, { cd_munic: cod }), variaveis, modelo_itens: [], __itens: itens };
+    CACHE.set(cod, pacote);
+    return pacote;
+  }
+  window.__carregarMunicipio = function (cod) {
+    carregarMunicipio(cod).then((p) => window.__entregaMunicipio(p)).catch((e) => {
+      console.error(e);
+      window.__falhaMunicipio && window.__falhaMunicipio(cod);
+    });
+  };
+  window.__carregarModeloMunicipio = function (cod) {
+    carregarMunicipio(cod).then((p) => window.__entregaModeloMunicipio({ cd_munic: cod, itens: p.__itens })).catch((e) => console.error(e));
+  };
+})();
+</script>
+<script>
+(function(){
+"use strict";
+const Q={
+  Q1:{s:"●",c:"#009E73",t:"Alta capacidade e alta entrega",short:"Alta capacidade / alta entrega"},
+  Q2:{s:"▲",c:"#E69F00",t:"Alta capacidade e baixa entrega",short:"Alta capacidade / baixa entrega"},
+  Q3:{s:"◆",c:"#0072B2",t:"Baixa capacidade e alta entrega",short:"Baixa capacidade / alta entrega"},
+  Q4:{s:"■",c:"#D55E00",t:"Baixa capacidade e baixa entrega",short:"Baixa capacidade / baixa entrega"}
+};
+const ND="#c9d1d9";
+const SIT={
+  "Supera as condições":"O município fica abaixo dos cortes nacionais, mas se destaca entre municípios de riqueza e porte semelhantes.",
+  "Abaixo do potencial":"O município aparece em posição favorável na régua nacional, mas fica abaixo de municípios de riqueza e porte semelhantes.",
+  "Frágil nas duas réguas":"O município fica abaixo dos cortes nacionais e também abaixo das medianas do próprio grupo de pares.",
+  "Destaque nas duas réguas":"O município está acima dos cortes nacionais e também se destaca entre municípios de riqueza e porte semelhantes."
+};
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const txt=v=>String(v??"").trim();
+const normal=v=>txt(v).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const qc=v=>String(v||"").slice(0,2);
+function num(v){if(v===null||v===undefined||v==="")return NaN;let z=String(v).trim().replace(/\s/g,"");if(z.includes(",")&&z.includes("."))z=z.replace(/\./g,"").replace(",",".");else if(z.includes(","))z=z.replace(",",".");return Number(z)}
+function fmt(v,tipo,d){const n=num(v);if(!Number.isFinite(n))return "Sem dado";if(tipo==="int")return Math.round(n).toLocaleString("pt-BR");if(tipo==="brl")return n.toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0});return n.toLocaleString("pt-BR",{minimumFractionDigits:d??0,maximumFractionDigits:d??2})}
+function porteTxt(v){const s=txt(v);if(!s)return "Sem dado";const m=s.match(/^(\d+)\s*-\s*(\d+)\s*k$/i);if(m)return m[1]+" a "+m[2]+" mil hab.";const a=s.match(/^at[ée]\s*(\d+)\s*k$/i);if(a)return "até "+a[1]+" mil hab.";const b=s.match(/^(acima( de)?|>)\s*(\d+)\s*k$/i);if(b)return "acima de "+b[3]+" mil hab.";return s.replace(/(\d+)k\b/gi,"$1 mil")}
+function nat(a,b){return String(a).localeCompare(String(b),"pt-BR",{numeric:true,sensitivity:"base"})}
+function polys(T){const O=Object.values(T.objects)[0],A=T.arcs,R=T.transform;function arc(i){let v=i<0;if(v)i=~i;let x=0,y=0,z=A[i].map(p=>{x+=p[0];y+=p[1];return[x*R.scale[0]+R.translate[0],y*R.scale[1]+R.translate[1]]});return v?z.reverse():z}
+  return O.geometries.flatMap(g=>(g.type==="Polygon"?[g.arcs]:g.arcs).map(p=>({p:p.map(r=>r.flatMap(arc)),d:g.properties||{}})))}
+const P=polys(PAINEL_TOPOLOGY);
+P.forEach(o=>{o.c=String(o.d.cd_munic||o.d.CD_MUN||o.d.code_muni||"").replace(".0","");let b=[Infinity,Infinity,-Infinity,-Infinity];o.p.forEach(r=>r.forEach(([x,y])=>{if(x<b[0])b[0]=x;if(y<b[1])b[1]=y;if(x>b[2])b[2]=x;if(y>b[3])b[3]=y}));o.bb=b});
+const R=window.PAINEL_RESUMO||{};
+const N=Object.values(R);
+const NAMES={};
+P.forEach(o=>{const nm=o.d.nm_mun||o.d.NM_MUN||o.d.name_muni||o.d.municipio||o.d.nome;if(nm&&!R[o.c])NAMES[o.c]={municipio:nm,uf:o.d.uf||o.d.sigla_uf||o.d.SIGLA_UF||o.d.abbrev_state||""}});
+const SEARCH=N.map(m=>({c:String(m.cd_munic),n:m.municipio,uf:m.uf,info:(m.regiao||"")+" · "+porteTxt(m.porte),q:qc(m.quadrante)})).concat(Object.entries(NAMES).map(([c,m])=>({c,n:m.municipio,uf:m.uf,info:"Sem classificação",q:""})));
+const CODES=[...new Set(P.map(o=>o.c))].filter(Boolean),UNCLASS=CODES.filter(c=>!R[c]),UF_REG={};N.forEach(m=>{if(m.uf)UF_REG[m.uf]=m.regiao});
+let FULL=[Infinity,Infinity,-Infinity,-Infinity];P.forEach(o=>{FULL[0]=Math.min(FULL[0],o.bb[0]);FULL[1]=Math.min(FULL[1],o.bb[1]);FULL[2]=Math.max(FULL[2],o.bb[2]);FULL[3]=Math.max(FULL[3],o.bb[3])});
+const S={ruler:"nacional",sel:"",peerFocus:true,view:FULL.slice(),tab:"geral",payload:null,model:null,modelCode:null,open:{ICE:false,IEG:false}};
+const F={reg:$("#reg"),uf:$("#uf"),porte:$("#porte"),pib:$("#pib"),quad:$("#quad"),joint:$("#joint")};
+function rec(c){return R[c]||null}
+function quadOf(m){return qc(S.ruler==="pares"?m?.pares?.quadrante_pares:m?.quadrante)}
+function filtersActive(){return Object.values(F).some(s=>s.value)}
+function matches(m){
+  if(!m)return !filtersActive();
+  return (!F.reg.value||m.regiao===F.reg.value)&&(!F.uf.value||m.uf===F.uf.value)&&(!F.porte.value||txt(m.porte)===F.porte.value)&&(!F.pib.value||String(m.quintil_pib)===F.pib.value)&&(!F.quad.value||quadOf(m)===F.quad.value)&&(!F.joint.value||txt(m.pares?.situacao)===F.joint.value);
+}
+function peerRef(){const r=rec(S.sel);return S.ruler==="pares"&&S.peerFocus&&r?.pares?.disponivel?r.pares:null}
+function samePeer(m,ref){return !!m?.pares&&m.pares.faixa_pib===ref.faixa_pib&&m.pares.faixa_populacao===ref.faixa_populacao}
+[...new Set(N.map(m=>m.regiao).filter(Boolean))].sort(nat).forEach(r=>F.reg.add(new Option(r,r)));
+function fillUF(){const cur=F.uf.value;F.uf.length=1;[...new Set(N.filter(m=>!F.reg.value||m.regiao===F.reg.value).map(m=>m.uf).filter(Boolean))].sort(nat).forEach(u=>F.uf.add(new Option(u,u)));F.uf.value=[...F.uf.options].some(o=>o.value===cur)?cur:""}
+fillUF();
+[...new Set(N.map(m=>txt(m.porte)).filter(Boolean))].sort(nat).forEach(p=>F.porte.add(new Option(porteTxt(p),p)));
+function markSet(){Object.values(F).forEach(s=>s.classList.toggle("set",!!s.value))}
+function boundsFor(pred){let b=[Infinity,Infinity,-Infinity,-Infinity];P.forEach(o=>{if(pred(rec(o.c))){b[0]=Math.min(b[0],o.bb[0]);b[1]=Math.min(b[1],o.bb[1]);b[2]=Math.max(b[2],o.bb[2]);b[3]=Math.max(b[3],o.bb[3])}});if(!isFinite(b[0]))return FULL.slice();const dx=b[2]-b[0],dy=b[3]-b[1];return[b[0]-dx*.08,b[1]-dy*.08,b[2]+dx*.08,b[3]+dy*.08]}
+function geoView(){if(F.uf.value)return boundsFor(m=>m&&m.uf===F.uf.value);if(F.reg.value)return boundsFor(m=>m&&m.regiao===F.reg.value);return FULL.slice()}
+F.reg.onchange=()=>{fillUF();markSet();animateTo(geoView());refresh()};
+F.uf.onchange=()=>{const m=N.find(x=>x.uf===F.uf.value);if(m&&F.reg.value!==m.regiao){F.reg.value=m.regiao;fillUF();F.uf.value=m.uf}markSet();animateTo(geoView());refresh()};
+[F.porte,F.pib,F.quad,F.joint].forEach(s=>s.onchange=()=>{markSet();refresh()});
+$("#clear").onclick=()=>{Object.values(F).forEach(s=>s.value="");fillUF();markSet();animateTo(FULL.slice());refresh()};
+const C=$("#map"),X=C.getContext("2d"),WRAP=$("#mapWrap");
+let TR={sc:1,ox:0,oy:0,w:1,h:1},PATHS=[],ANIM=null;
+function project(){const w=C.clientWidth,h=C.clientHeight,V=S.view,sc=Math.min((w-24)/(V[2]-V[0]),(h-24)/(V[3]-V[1]));TR={sc,ox:(w-sc*(V[2]-V[0]))/2,oy:(h-sc*(V[3]-V[1]))/2,w,h}}
+function draw(){
+  const d=devicePixelRatio||1,w=C.clientWidth,h=C.clientHeight;if(!w||!h)return;
+  C.width=w*d;C.height=h*d;X.setTransform(d,0,0,d,0,0);X.clearRect(0,0,w,h);project();
+  const {sc,ox,oy}=TR,V=S.view,act=filtersActive(),ref=peerRef();
+  PATHS=[];
+  for(const o of P){
+    if(o.bb[2]<V[0]-(V[2]-V[0])*.05||o.bb[0]>V[2]+(V[2]-V[0])*.05||o.bb[3]<V[1]-(V[3]-V[1])*.05||o.bb[1]>V[3]+(V[3]-V[1])*.05)continue;
+    const p=new Path2D();o.p.forEach(r=>r.forEach(([x,y],i)=>{const xx=ox+(x-V[0])*sc,yy=h-(oy+(y-V[1])*sc);i?p.lineTo(xx,yy):p.moveTo(xx,yy)}));p.closePath();
+    const m=rec(o.c),k=quadOf(m),match=matches(m);
+    let a=act?(match?1:.12):1;if(ref&&!samePeer(m,ref))a*=.28;
+    PATHS.push({p,c:o.c,m,col:Q[k]?.c||ND,a,match});
+  }
+  X.save();X.translate(0,2.5);X.fillStyle="rgba(7,29,65,.20)";for(const t of PATHS){if(t.a>.5)X.fill(t.p)}X.restore();
+  for(const t of PATHS){X.globalAlpha=t.a;X.fillStyle=t.col;X.fill(t.p)}
+  X.globalAlpha=1;
+  X.save();X.globalCompositeOperation="source-atop";const g=X.createLinearGradient(0,0,w*.6,h);g.addColorStop(0,"rgba(255,255,255,.22)");g.addColorStop(.55,"rgba(255,255,255,0)");g.addColorStop(1,"rgba(0,20,50,.10)");X.fillStyle=g;X.fillRect(0,0,w,h);X.restore();
+  X.lineJoin="round";
+  const lw=Math.max(.15,Math.min(.9,sc*0.02));
+  for(const t of PATHS){X.globalAlpha=t.a<1?.5:1;X.strokeStyle="rgba(255,255,255,.75)";X.lineWidth=lw;X.stroke(t.p)}
+  X.globalAlpha=1;
+  const sels=PATHS.filter(t=>t.c===S.sel);
+  if(sels.length){X.save();X.shadowColor="rgba(7,29,65,.45)";X.shadowBlur=10;sels.forEach(s=>{X.fillStyle=s.col;X.fill(s.p)});X.restore();sels.forEach(s=>{X.strokeStyle="#fff";X.lineWidth=4.5;X.stroke(s.p)});sels.forEach(s=>{X.strokeStyle="#071d41";X.lineWidth=2;X.stroke(s.p)})}
+}
+function hitAt(e){const r=C.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,d=devicePixelRatio||1,act=filtersActive();for(let i=PATHS.length-1;i>=0;i--){const t=PATHS[i];if(act&&!t.match)continue;if(X.isPointInPath(t.p,x*d,y*d))return t}return null}
+function animateTo(target,ms=480){cancelAnimationFrame(ANIM);const from=S.view.slice(),t0=performance.now();const step=now=>{const k=Math.min(1,(now-t0)/ms),e=1-Math.pow(1-k,3);S.view=from.map((v,i)=>v+(target[i]-v)*e);draw();if(k<1)ANIM=requestAnimationFrame(step)};ANIM=requestAnimationFrame(step)}
+function zoomAt(f,px,py){project();const V=S.view,{sc,ox,oy,h}=TR;const cx=px==null?(V[0]+V[2])/2:V[0]+(px-ox)/sc,cy=py==null?(V[1]+V[3])/2:V[1]+(h-py-oy)/sc;S.view=[cx+(V[0]-cx)*f,cy+(V[1]-cy)*f,cx+(V[2]-cx)*f,cy+(V[3]-cy)*f];draw()}
+$("#zin").onclick=()=>zoomAt(.7);$("#zout").onclick=()=>zoomAt(1/.7);$("#zfit").onclick=()=>animateTo(geoView());
+C.addEventListener("wheel",e=>{e.preventDefault();const r=C.getBoundingClientRect();zoomAt(e.deltaY<0?.85:1/.85,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+let drag=null;
+C.addEventListener("pointerdown",e=>{drag={x:e.clientX,y:e.clientY,v:S.view.slice(),moved:false};C.setPointerCapture(e.pointerId)});
+C.addEventListener("pointermove",e=>{
+  if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>4){drag.moved=true;C.classList.add("drag");hideTip()}if(drag.moved){const sc=TR.sc;S.view=[drag.v[0]-dx/sc,drag.v[1]+dy/sc,drag.v[2]-dx/sc,drag.v[3]+dy/sc];draw()}return}
+  showTip(e);
+});
+C.addEventListener("pointerup",e=>{const was=drag;drag=null;C.classList.remove("drag");if(was&&!was.moved){const t=hitAt(e);if(t)select(t.c,false)}});
+C.addEventListener("pointerleave",hideTip);
+
+const GEO_OK=FULL[0]>=-80&&FULL[2]<=-28&&FULL[1]>=-36&&FULL[3]<=8;
+const ZG=$("#zgeo");
+function inRing(x,y,r){let ins=false;for(let i=0,j=r.length-1;i<r.length;j=i++){const xi=r[i][0],yi=r[i][1],xj=r[j][0],yj=r[j][1];if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))ins=!ins}return ins}
+function muniAt(x,y){for(const o of P){const b=o.bb;if(x<b[0]||x>b[2]||y<b[1]||y>b[3])continue;if(o.p.length&&inRing(x,y,o.p[0])&&!o.p.slice(1).some(h=>inRing(x,y,h)))return o.c}return null}
+function toast(t){let el=document.getElementById("mapToast");if(!el){el=document.createElement("div");el.id="mapToast";el.className="map-toast";WRAP.appendChild(el)}el.textContent=t;el.classList.add("show");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("show"),4500)}
+if(ZG){if(!GEO_OK||!("geolocation" in navigator))ZG.remove();else ZG.onclick=()=>{ZG.classList.add("busy");toast("Buscando sua localização…");navigator.geolocation.getCurrentPosition(pos=>{ZG.classList.remove("busy");const c=muniAt(pos.coords.longitude,pos.coords.latitude);if(c){toast("Você está em "+nameOf(c)+".");select(c,true)}else toast("Sua localização fica fora do território mapeado.")},err=>{ZG.classList.remove("busy");toast(err.code===1?"O navegador não autorizou o uso da localização.":"Não foi possível obter sua localização.")},{enableHighAccuracy:false,timeout:10000,maximumAge:600000})}}
+addEventListener("resize",draw);
+const TIP=$("#tip");
+function nameOf(c){const m=rec(c)||NAMES[c];return m?m.municipio+(m.uf?" - "+m.uf:""):"Município "+c}
+function showTip(e){const t=hitAt(e);if(!t){hideTip();C.style.cursor="grab";return}C.style.cursor="pointer";const k=quadOf(t.m),q=Q[k],ref=peerRef();
+  let line=q?`<span style="color:${q.c};font-weight:800">${q.s} ${k}</span> · ${q.short}`:(S.ruler==="pares"?"Sem comparação entre pares":"Sem dados para classificação");
+  if(ref&&t.c!==S.sel&&!samePeer(t.m,ref))line+=`<br><span style="color:#5c6b7d">Fora do grupo de pares · clique para selecionar</span>`;
+  TIP.innerHTML=`<strong>${esc(nameOf(t.c))}</strong>${line}`;TIP.style.left=Math.min(e.clientX+14,innerWidth-290)+"px";TIP.style.top=(e.clientY+14)+"px";TIP.style.opacity=1}
+function hideTip(){TIP.style.opacity=0}
+function legend(){
+  const pares=S.ruler==="pares";
+  $("#lgTitle").textContent=pares?"Legenda · entre pares":"Legenda · régua nacional";
+  const lv=t=>t.toLowerCase().includes("alta")?"alta":"baixa";const it=Object.entries(Q).map(([k,q])=>{const [c,e]=q.short.split(" / ");const ar=v=>v==="alta"?"↑":"↓";return `<div class="lg-item"><span class="sym" style="background:${q.c}">${q.s}</span><div><b>${k}</b><div class="lg-tags"><span class="tg">${ar(lv(c))} Capacidade ${lv(c)}</span><span class="tg">${ar(lv(e))} Entrega ${lv(e)}</span></div></div></div>`}).join("");
+  const nd=`<div class="lg-item"><span class="sym" style="background:${ND};color:#3d4f66">–</span><div><b>${pares?"Sem comparação entre pares":"Município sem dado"}</b><span>${pares?"fora dos grupos de pares":"para classificação"}</span></div></div>`;
+  const fade=peerRef()?`<div class="lg-item"><span class="sym" style="background:${ND};opacity:.45"></span><div><b>Esmaecido</b><span>fora do grupo de pares</span></div></div>`:"";
+  $("#lgItems").innerHTML=it+nd+fade;
+  $("#miniLegend").innerHTML=Object.entries(Q).map(([k,q])=>`<div><span class="sym" style="background:${q.c}">${q.s}</span>${k}</div>`).join("")+`<div><span class="sym" style="background:${ND}"></span>Sem dado</div>`;
+  const cnt={Q1:0,Q2:0,Q3:0,Q4:0};let nd2=0,tot=0;
+  N.forEach(m=>{if(!matches(m))return;const k=quadOf(m);if(cnt[k]!==undefined){cnt[k]++;tot++}else nd2++});
+  const geo=F.reg.value||F.uf.value,other=F.porte.value||F.pib.value||F.quad.value||F.joint.value;
+  if(!geo&&!other)nd2+=UNCLASS.length;else if(!other)nd2+=UNCLASS.filter(c=>{const n=NAMES[c];return n&&(!F.uf.value||n.uf===F.uf.value)&&(!F.reg.value||UF_REG[n.uf]===F.reg.value)}).length;
+  const all=tot+nd2||1,mx=Math.max(1,...Object.values(cnt),nd2);
+  const row=(sym,col,lab,n,fg)=>`<div class="cnt-row"><span class="sym" style="background:${col};${fg||""}">${sym}</span><b>${lab}</b><div class="trk"><i style="width:${n/mx*100}%;background:${col}"></i></div><em>${n.toLocaleString("pt-BR")} (${(n/all*100).toLocaleString("pt-BR",{maximumFractionDigits:1})}%)</em></div>`;
+  $("#counts").innerHTML=`<div class="cnt-tot">${(tot+nd2).toLocaleString("pt-BR")} municípios · ${tot.toLocaleString("pt-BR")} classificados</div>`+Object.entries(Q).map(([k,q])=>row(q.s,q.c,k,cnt[k])).join("")+row("–",ND,"Sem dado",nd2,"color:#3d4f66");
+}
+function mapHead(){const ref=peerRef();$("#mapTitle").textContent=S.ruler==="pares"?"Mapa entre pares":"Mapa dos quadrantes";
+  $("#mapSub").textContent=ref?`Destacando os ${ref.municipios_no_grupo||""} municípios semelhantes a ${nameOf(S.sel)}.`:(S.ruler==="pares"?"Cada município comparado com o seu grupo de riqueza e porte. Selecione um município para destacar os pares.":"Cada município comparado com todo o país. Clique em um município para ver os detalhes.");
+  const pill=$("#peerPill"),r=rec(S.sel);const show=S.ruler==="pares"&&r?.pares?.disponivel;pill.classList.toggle("show",!!show);
+  if(show)$("#peerPillText").textContent=`Grupo de pares · ${r.pares.municipios_no_grupo||"—"} municípios · todos continuam clicáveis`;
+  $("#peerSwitch").classList.toggle("on",S.peerFocus)}
+$("#peerSwitch").onclick=()=>{S.peerFocus=!S.peerFocus;refresh();if(S.payload&&S.tab==="comp")renderBody()};
+function refresh(){draw();legend();mapHead();if(!S.sel&&typeof renderResumo==='function')renderResumo()}
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{S.ruler=b.dataset.ruler;document.querySelectorAll(".seg button").forEach(x=>x.classList.toggle("active",x===b));refresh();if(S.payload)renderSide()});
+const MQ=$("#mq"),SG=$("#sugg");let ACT=-1;
+function closeSugg(){SG.style.display="none";SG.innerHTML="";ACT=-1}
+function sugg(){const q=normal(MQ.value);if(!q){closeSugg();return}const isCode=/^\d{3,}$/.test(q);let a=[],b=[];
+  SEARCH.forEach(s=>{if(isCode){if(s.c.startsWith(q))a.push(s);return}const n=normal(s.n);if(n.startsWith(q))a.push(s);else if(n.includes(q))b.push(s)});
+  const L=a.concat(b).slice(0,10);
+  SG.innerHTML=L.length?L.map(s=>`<button type="button" data-c="${esc(s.c)}"><strong>${esc(s.n)} - ${esc(s.uf)}</strong><small>${s.q&&Q[s.q]?`<span style="color:${Q[s.q].c}">${Q[s.q].s} ${s.q}</span> · `:""}${esc(s.info)}</small></button>`).join(""):`<button type="button" disabled><small>Nenhum município encontrado</small></button>`;
+  SG.style.display="block";SG.querySelectorAll("button[data-c]").forEach(b=>b.onclick=()=>select(b.dataset.c,true))}
+MQ.addEventListener("input",sugg);MQ.addEventListener("focus",sugg);
+MQ.addEventListener("keydown",e=>{const bs=[...SG.querySelectorAll("button[data-c]")];if(e.key==="ArrowDown"){e.preventDefault();ACT=Math.min(ACT+1,bs.length-1)}else if(e.key==="ArrowUp"){e.preventDefault();ACT=Math.max(ACT-1,0)}else if(e.key==="Enter"){e.preventDefault();(bs[ACT]||bs[0])?.click()}else if(e.key==="Escape")closeSugg();bs.forEach((b,i)=>b.classList.toggle("on",i===ACT))});
+document.addEventListener("click",e=>{if(!e.target.closest(".search"))closeSugg()});
+const SIDE=$("#side");
+const EMPTY_SIDE=SIDE.innerHTML;
+
+/* PAINEL_V12_RESUMO */
+const RS={modal:null,rows:[],cols:[],sort:null,dir:-1};
+function rsRecorte(ignJoint){const j=F.joint.value;if(ignJoint)F.joint.value="";const r=N.filter(m=>matches(m));F.joint.value=j;return r}
+function rsNome(){if(F.uf.value)return F.uf.value;if(F.reg.value)return F.reg.value;return "Brasil"}
+function rsMed(a){const v=a.map(num).filter(Number.isFinite).sort((x,y)=>x-y);if(!v.length)return NaN;const h=v.length>>1;return v.length%2?v[h]:(v[h-1]+v[h])/2}
+function rsPct(n,d){return d?Math.round(n/d*100):0}
+function rsMil(v){return Number.isFinite(v)?"R$ "+(v/1000).toLocaleString("pt-BR",{maximumFractionDigits:0})+" mil":"Sem dado"}
+function rsSym(k){const q=Q[k];return `<span class="sym" style="background:${q?q.c:ND};${q?"":"color:#3d4f66"}">${q?q.s:"–"}</span>`}
+function rsScore(m){return (num(m.pares?.percentil_capacidade)||0)+(num(m.pares?.percentil_entrega)||0)}
+function rsCasos(base){return base.filter(m=>txt(m.pares?.situacao)==="Supera as condições").sort((a,b)=>rsScore(b)-rsScore(a))}
+function rsCortes(base){return base.filter(m=>m.pares?.proximo_corte_nacional===true||String(m.pares?.proximo_corte_nacional).toLowerCase()==="sim")}
+function renderResumo(){
+  if(S.sel)return;
+  const base=rsRecorte(false),baseJ=rsRecorte(true);
+  const geo=F.reg.value||F.uf.value,other=F.porte.value||F.pib.value||F.quad.value||F.joint.value;
+  let semDado=0;if(!other)semDado=UNCLASS.filter(c=>{const n=NAMES[c];if(!geo)return true;return n&&(!F.uf.value||n.uf===F.uf.value)&&(!F.reg.value||UF_REG[n.uf]===F.reg.value)}).length;
+  const cls=base.filter(m=>Q[quadOf(m)]),pop=cls.reduce((s,m)=>s+(num(m.populacao)||0),0);
+  const cnt={},popq={},pibq={};Object.keys(Q).forEach(k=>{cnt[k]=0;popq[k]=0;pibq[k]=[]});
+  cls.forEach(m=>{const k=quadOf(m);cnt[k]++;popq[k]+=num(m.populacao)||0;pibq[k].push(m.pares?.pib_pc_2023??m.pib_pc)});
+  const tot=cls.length;
+  const dual=Object.keys(Q).map(k=>{const a=rsPct(cnt[k],tot),b=rsPct(popq[k],pop);return `${rsSym(k)}<div class="rs-bar"><div class="rs-tr"><i style="width:${a}%;background:${Q[k].c}"></i></div><em>${a}%</em></div><div class="rs-bar"><div class="rs-tr"><i style="width:${b}%;background:${Q[k].c}"></i></div><em>${b}%</em></div>`}).join("");
+  const sits=["Supera as condições","Abaixo do potencial","Frágil nas duas réguas","Destaque nas duas réguas"];
+  const sitHtml=sits.map(s=>`<button type="button" data-sit="${esc(s)}" class="${F.joint.value===s?"on":""}"><b>${baseJ.filter(m=>txt(m.pares?.situacao)===s).length.toLocaleString("pt-BR")}</b>${esc(s)}</button>`).join("");
+  const pibHtml=Object.keys(Q).map(k=>`<div class="rs-row">${rsSym(k)}<span>${esc(Q[k].short)}</span><b>${rsMil(rsMed(pibq[k]))}</b></div>`).join("");
+  let terr="",terrT="";const shareQ1=a=>{const c=a.filter(m=>Q[quadOf(m)]);return rsPct(c.filter(m=>quadOf(m)==="Q1").length,c.length)};
+  const keep=m=>(!F.porte.value||txt(m.porte)===F.porte.value)&&(!F.pib.value||String(m.quintil_pib)===F.pib.value);
+  const linha=(nome,v,me)=>`<div class="rs-reg ${me?"me":""}"><span>${esc(nome)}</span><div class="rs-tr"><i style="width:${v}%;background:${Q.Q1.c}"></i></div><b>${v}%</b></div>`;
+  if(F.uf.value){terrT=`${F.uf.value} comparado ao Brasil · % em Q1`;terr=linha(F.uf.value,shareQ1(N.filter(m=>m.uf===F.uf.value&&keep(m))),true)+(F.reg.value?linha(F.reg.value,shareQ1(N.filter(m=>m.regiao===F.reg.value&&keep(m))),false):"")+linha("Brasil",shareQ1(N.filter(keep)),false)}
+  else if(F.reg.value){terrT=`Estados do ${F.reg.value} · % em Q1`;const ufs=[...new Set(N.filter(m=>m.regiao===F.reg.value).map(m=>m.uf))];terr=ufs.map(u=>[u,shareQ1(N.filter(m=>m.uf===u&&keep(m)))]).sort((a,b)=>b[1]-a[1]).map(([u,v])=>linha(u,v,false)).join("")}
+  else{terrT="Regiões · % em Q1";const regs=[...new Set(N.map(m=>m.regiao).filter(Boolean))];terr=regs.map(r=>[r,shareQ1(N.filter(m=>m.regiao===r&&keep(m)))]).sort((a,b)=>b[1]-a[1]).map(([r,v])=>linha(r,v,false)).join("")}
+  const casos=rsCasos(base),cortes=rsCortes(base);
+  const caseHtml=casos.slice(0,3).map(m=>`<button type="button" class="rs-case" data-go="${esc(m.cd_munic)}"><span><b>${esc(m.municipio)} - ${esc(m.uf)}</b><small>Capacidade ${Math.round(num(m.pares.percentil_capacidade)*100)}% · Entrega ${Math.round(num(m.pares.percentil_entrega)*100)}% do grupo</small></span><em>Ver ›</em></button>`).join("")||`<p class="rs-empty">Nenhum município nessa situação no recorte.</p>`;
+  const nearPct=rsPct(cortes.length,base.filter(m=>m.pares?.disponivel).length);
+  SIDE.innerHTML=`<div class="rs-head"><h2>${esc(rsNome())}</h2><p>Visão geral do recorte${S.ruler==="pares"?" · quadrantes entre pares":""} · escolha um município no mapa ou na busca</p></div><div class="rs-body">
+  <section class="card"><div class="rs-t"><span class="eyebrow">Retrato do recorte</span></div><div class="rs-k3"><div><b>${(tot+semDado).toLocaleString("pt-BR")}</b><span>municípios</span></div><div><b>${tot.toLocaleString("pt-BR")}</b><span>classificados</span></div><div><b>${(pop/1e6).toLocaleString("pt-BR",{maximumFractionDigits:1})} mi</b><span>habitantes nos classificados</span></div></div></section>
+  <section class="card"><div class="rs-t"><span class="eyebrow">Quadrantes: municípios × população</span></div><div class="rs-dual"><span></span><span class="h">% dos municípios</span><span class="h">% da população</span>${dual}</div></section>
+  <section class="card"><div class="rs-t"><span class="eyebrow">Leitura conjunta</span><span class="rs-hint">clique para filtrar</span></div><div class="rs-sit">${sitHtml}</div></section>
+  <section class="card"><div class="rs-t"><span class="eyebrow">PIB per capita mediano</span></div>${pibHtml}</section>
+  <section class="card"><div class="rs-t"><span class="eyebrow">${esc(terrT)}</span></div>${terr||'<p class="rs-empty">Sem dados no recorte.</p>'}</section>
+  <section class="card"><div class="rs-t"><span class="eyebrow">Casos para olhar · superam as condições</span><span class="rs-hint">${casos.length.toLocaleString("pt-BR")} no recorte</span></div>${caseHtml}${casos.length?`<button type="button" class="rs-more" data-more="casos">Ver todos os ${casos.length.toLocaleString("pt-BR")} ›</button>`:""}</section>
+  <section class="card"><div class="rs-t"><span class="eyebrow">Perto dos cortes</span></div><div class="rs-near"><b>${cortes.length.toLocaleString("pt-BR")}</b><span>municípios (${nearPct}% dos comparáveis) podem mudar de quadrante com pequenas diferenças nos dados</span></div>${cortes.length?`<button type="button" class="rs-more" data-more="cortes">Ver lista ›</button>`:""}</section></div>`;
+  SIDE.querySelectorAll("[data-sit]").forEach(b=>b.onclick=()=>{F.joint.value=F.joint.value===b.dataset.sit?"":b.dataset.sit;markSet();refresh()});
+  SIDE.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>select(b.dataset.go,true));
+  SIDE.querySelectorAll("[data-more]").forEach(b=>b.onclick=()=>rsAbrir(b.dataset.more));
+}
+function rsAbrir(tipo){
+  const base=rsRecorte(false),M=$("#rsModal");RS.modal=tipo;
+  const pc=m=>Math.round(num(m.pares?.percentil_capacidade)*100),pe=m=>Math.round(num(m.pares?.percentil_entrega)*100);
+  if(tipo==="casos"){RS.rows=rsCasos(base);$("#rsMT").textContent="Casos para olhar · superam as condições";$("#rsMS").textContent=`${rsNome()} · municípios entre os mais frágeis na régua nacional, mas entre os destaques do seu grupo de pares. Clique para abrir a ficha.`;
+    RS.cols=[["Município",m=>m.municipio,m=>esc(m.municipio)],["UF",m=>m.uf,m=>esc(m.uf)],["Região",m=>m.regiao,m=>esc(m.regiao)],["Porte",m=>txt(m.porte),m=>esc(porteTxt(m.porte))],["Capacidade no grupo",pc,m=>pc(m)+"%",1],["Entrega no grupo",pe,m=>pe(m)+"%",1],["Nacional → pares",m=>quadOf(m),m=>`<span class="q">${rsSym(qc(m.quadrante))}→${rsSym(qc(m.pares?.quadrante_pares))}</span>`]];RS.sort=4}
+  else{RS.rows=rsCortes(base);$("#rsMT").textContent="Perto dos cortes";$("#rsMS").textContent=`${rsNome()} · municípios próximos das linhas que separam os quadrantes nacionais. Vale olhar o percentual, não só o quadrante.`;
+    RS.cols=[["Município",m=>m.municipio,m=>esc(m.municipio)],["UF",m=>m.uf,m=>esc(m.uf)],["Quadrante nacional",m=>qc(m.quadrante),m=>`<span class="q">${rsSym(qc(m.quadrante))}${esc(qc(m.quadrante))}</span>`],["Capacidade no país",m=>num(m.posicao_ICE),m=>Math.round(num(m.posicao_ICE))+"%",1],["Entrega no país",m=>num(m.posicao_IEG),m=>Math.round(num(m.posicao_IEG))+"%",1],["Distância do corte",m=>Math.min(Math.abs(num(m.posicao_ICE)-50),Math.abs(num(m.posicao_IEG)-50)),m=>Math.round(Math.min(Math.abs(num(m.posicao_ICE)-50),Math.abs(num(m.posicao_IEG)-50)))+" p.p.",1]];RS.sort=5}
+  RS.dir=tipo==="casos"?-1:1;
+  const uf=$("#rsUF");uf.length=1;[...new Set(RS.rows.map(m=>m.uf))].sort(nat).forEach(u=>uf.add(new Option(u,u)));$("#rsQ").value="";
+  rsTabela();M.hidden=false;setTimeout(()=>$("#rsQ").focus(),30);
+}
+function rsTabela(){
+  const q=normal($("#rsQ").value),uf=$("#rsUF").value,col=RS.cols[RS.sort];
+  const rows=RS.rows.filter(m=>(!uf||m.uf===uf)&&(!q||normal(m.municipio+" "+m.uf).includes(q))).slice().sort((a,b)=>{const x=col[1](a),y=col[1](b);return (typeof x==="number"&&typeof y==="number"?x-y:nat(x,y))*RS.dir});
+  $("#rsTH").innerHTML="<tr>"+RS.cols.map((c,i)=>`<th data-i="${i}" class="${c[3]?"num":""}">${esc(c[0])}${i===RS.sort?(RS.dir>0?" ↑":" ↓"):""}</th>`).join("")+"</tr>";
+  $("#rsTB").innerHTML=rows.map(m=>`<tr data-go="${esc(m.cd_munic)}">${RS.cols.map(c=>`<td class="${c[3]?"num":""}">${c[2](m)}</td>`).join("")}</tr>`).join("")||`<tr><td colspan="${RS.cols.length}">Nenhum município encontrado.</td></tr>`;
+  $("#rsN").textContent=rows.length.toLocaleString("pt-BR")+" municípios";
+  $("#rsTH").querySelectorAll("th").forEach(th=>th.onclick=()=>{const i=+th.dataset.i;if(i===RS.sort)RS.dir*=-1;else{RS.sort=i;RS.dir=RS.cols[i][3]?-1:1}rsTabela()});
+  $("#rsTB").querySelectorAll("tr[data-go]").forEach(tr=>tr.onclick=()=>{rsFechar();select(tr.dataset.go,true)});
+}
+function rsFechar(){$("#rsModal").hidden=true;RS.modal=null}
+$("#rsX").onclick=rsFechar;$("#rsModal").addEventListener("click",e=>{if(e.target.id==="rsModal")rsFechar()});
+$("#rsQ").oninput=rsTabela;$("#rsUF").onchange=rsTabela;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&RS.modal){e.stopImmediatePropagation();rsFechar()}},true);
+
+function deselect(){S.sel="";S.payload=null;S.model=null;S.modelCode=null;MQ.value="";SIDE.innerHTML=EMPTY_SIDE;refresh()}
+SIDE.addEventListener("click",e=>{if(e.target.closest("#sideClose"))deselect()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&S.sel&&e.target!==MQ&&!document.querySelector(".page:not(.hidden)"))deselect()});
+function select(c,focus){
+  S.sel=String(c);S.payload=null;S.model=null;S.modelCode=null;S.open={ICE:false,IEG:false};
+  MQ.value=nameOf(S.sel);closeSugg();
+  if(focus){const os=P.filter(x=>x.c===S.sel);if(os.length){const b=[Infinity,Infinity,-Infinity,-Infinity];os.forEach(o=>{b[0]=Math.min(b[0],o.bb[0]);b[1]=Math.min(b[1],o.bb[1]);b[2]=Math.max(b[2],o.bb[2]);b[3]=Math.max(b[3],o.bb[3])});const dx=Math.max(b[2]-b[0],(FULL[2]-FULL[0])*.08),dy=Math.max(b[3]-b[1],(FULL[3]-FULL[1])*.08),cx=(b[0]+b[2])/2,cy=(b[1]+b[3])/2;animateTo([cx-dx*2.2,cy-dy*2.2,cx+dx*2.2,cy+dy*2.2])}}
+  refresh();
+  SIDE.innerHTML=head()+`<div class="side-body"><div class="loading">Carregando dados do município…</div></div>`;
+  window.__carregarMunicipio(S.sel);
+}
+window.__falhaMunicipio=c=>{if(String(c)!==S.sel)return;SIDE.innerHTML=head()+`<div class="side-body"><div class="card"><span class="eyebrow">Dados</span><p class="note">Não foi possível carregar os dados deste município.</p></div></div>`};
+window.__entregaMunicipio=p=>{if(String(p?.municipio?.cd_munic)!==S.sel)return;S.payload=p;renderSide()};
+window.__entregaModeloMunicipio=p=>{if(String(p?.cd_munic)!==S.modelCode)return;S.model=p;if(S.tab==="indices")renderBody()};
+function head(){const m=rec(S.sel)||{},nm=NAMES[S.sel]||{};const pibv=m.pares?.pib_pc_2023??m.pib_pc;const pib=Number.isFinite(num(pibv))?pibv:null;const name=m.municipio||nm.municipio||("Município "+S.sel),uf=m.uf||nm.uf||"";
+  const tabs=[["geral","Visão geral"],["indices","Índices"],["comp","Comparativos"],["dados","Dados"]].map(([k,l])=>`<button type="button" data-tab="${k}" class="${S.tab===k?"active":""}">${l}</button>`).join("");
+  return `<div class="side-head"><button class="side-close" id="sideClose" type="button" title="Fechar e voltar ao painel inicial" aria-label="Fechar município">×</button><h2>${esc(name)}${uf?" - "+esc(uf):""}</h2><div class="pop">População: ${esc(fmt(m.populacao,"int"))}${pib!==null?`<span class="sep">|</span>PIB per capita: ${esc(fmt(pib,"brl"))}`:""}</div><div class="ctx">Cód. ${esc(S.sel)} · ${esc(m.regiao||"Região sem dado")} · Porte ${esc(porteTxt(m.porte))}</div></div><nav class="tabs">${tabs}</nav>`}
+function renderSide(){SIDE.innerHTML=head()+`<div class="side-body" id="sideBody"></div>`;SIDE.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;SIDE.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("active",x===b));renderBody()});renderBody()}
+function kpi(label,v,ctx,cls){if(!Number.isFinite(v))return `<div class="kpi ${cls}"><span class="kpi-l">${label}</span><span class="kpi-none">Sem classificação</span></div>`;const r=Math.max(0,Math.min(100,v));return `<div class="kpi ${cls}"><span class="kpi-l">${label}</span><span class="kpi-pre">Melhor que</span><span class="kpi-v">${Math.round(r)}<small>%</small></span><span class="kpi-c">${ctx}</span><div class="trk2"><i style="width:${r}%"></i><b title="Mediana"></b></div></div>`}
+function qbadge(k,lab){const q=Q[qc(k)];if(!q)return `<div class="qb"><span class="sym" style="background:${ND};color:#3d4f66">–</span><div><small>${lab}</small><b>Sem classificação</b></div></div>`;return `<div class="qb"><span class="sym" style="background:${q.c}">${q.s}</span><div><small>${lab} · ${qc(k)}</small><b>${q.short}</b></div></div>`}
+function jointRead(p){if(p.situacao&&SIT[p.situacao])return{t:p.situacao,x:SIT[p.situacao]};const n=qc(p.quadrante_nacional),q=qc(p.quadrante_pares),rk={Q1:3,Q2:2,Q3:2,Q4:1};const mn=k=>(Q[k]?.short||"sem classificação").toLowerCase();
+  if(!n||!q)return{t:"Comparação parcialmente disponível",x:"Não há informação suficiente para comparar as duas réguas."};
+  if(n===q)return{t:"Posição consistente nas duas réguas",x:`O município fica em ${mn(n)} nas duas réguas.`};
+  if(rk[q]>rk[n])return{t:"Melhor posição entre pares",x:`Na régua nacional, ${mn(n)}. Entre municípios semelhantes, passa para ${mn(q)}.`};
+  if(rk[q]<rk[n])return{t:"Posição menor entre pares",x:`Na régua nacional, ${mn(n)}. Entre municípios semelhantes, passa para ${mn(q)}.`};
+  return{t:"Perfil diferente entre as duas réguas",x:`Na régua nacional, ${mn(n)}. Entre municípios semelhantes, ${mn(q)}.`}}
+function geral(){const m=rec(S.sel);
+  if(!m)return `<div class="card"><span class="eyebrow">Classificação</span><span class="c-title">Sem classificação</span><p class="note">Este município não tem dados completos para os dois índices, principalmente por falta de IDEB. As demais informações continuam na aba Dados.</p></div>`;
+  let h=`<section class="card"><span class="eyebrow">Comparação nacional</span><span class="c-title">Posição no país</span><span class="c-sub">Comparado a todos os municípios classificados.</span><div class="qline">${qbadge(m.quadrante,"Quadrante na régua nacional")}</div><div class="kpis">${kpi("Capacidade estatal (ICE)",num(m.posicao_ICE),"dos municípios do país","cap")}${kpi("Entrega governamental (IEG)",num(m.posicao_IEG),"dos municípios do país","ent")}</div></section>`;
+  const p=m.pares;
+  if(p?.disponivel){
+    h+=`<section class="card"><span class="eyebrow">Comparação entre municípios semelhantes</span><span class="c-title">Posição no grupo de pares</span><span class="c-sub">Entre os ${esc(p.municipios_no_grupo||"—")} municípios de riqueza e porte semelhantes.</span><div class="qline">${qbadge(p.quadrante_pares,"Quadrante entre pares")}</div><div class="kpis">${kpi("Capacidade estatal",num(p.percentil_capacidade)*100,"dos municípios semelhantes","cap")}${kpi("Entrega governamental",num(p.percentil_entrega)*100,"dos municípios semelhantes","ent")}</div><div class="chips"><div class="chip">Faixa de PIB<b>${esc(txt(p.faixa_pib).replace(/^\d+\s*·\s*/,"")||"—")}</b></div><div class="chip">Porte<b>${esc(p.faixa_populacao||"—")}</b></div><div class="chip">No grupo<b>${esc(p.municipios_no_grupo||"—")}</b></div></div></section>`;
+    const j=jointRead(p);
+    h+=`<section class="card"><span class="eyebrow">Leitura conjunta das duas réguas</span><span class="joint-t">${esc(j.t)}</span><p class="joint-p">${esc(j.x)}</p><div class="flow">${qbadge(p.quadrante_nacional||m.quadrante,"Régua nacional")}<span>→</span>${qbadge(p.quadrante_pares,"Entre pares")}</div>${p.proximo_corte_nacional?`<p class="note">Este município está perto de um corte nacional. Vale olhar o percentual, não só o quadrante.</p>`:""}</section>`;
+  }else{
+    h+=`<section class="card"><span class="eyebrow">Comparação entre municípios semelhantes</span><p class="note">Este município não tem comparação entre pares.</p><div style="margin-top:10px">${qbadge(m.quadrante,"Régua nacional")}</div></section>`;
+  }
+  return h}
+function indices(){const m=rec(S.sel);if(!m)return `<div class="card"><p class="note">Sem índices calculados para este município.</p></div>`;
+  const card=(k,cls,title,pos,n)=>{const p=num(pos);return `<button type="button" class="idx-card ${cls}" data-idx="${k}" aria-expanded="${S.open[k]}"><div class="idx-top"><strong>${title}</strong></div><div class="idx-val">${esc(fmt(m[k],"num",3))}</div><div class="idx-mid">${Number.isFinite(p)?"Melhor que <b>"+Math.round(p)+"%</b> dos municípios do país":"Sem classificação"}</div><div class="idx-foot">Ver ${n} componentes<i>${S.open[k]?"Fechar ×":"Abrir ›"}</i></div></button>${S.open[k]?`<div class="idx-detail">${detail(k)}</div>`:""}`};
+  return `<p class="note" style="margin:0 0 10px">Clique em cada índice para ver seus componentes.</p>`+card("ICE","","Índice de Capacidade Estatal (ICE)",m.posicao_ICE,41)+card("IEG","ieg","Índice de Entrega Governamental (IEG)",m.posicao_IEG,7)}
+/* PAINEL_V13 */
+function consInfo(y){const a=String((window.CONSORCIO_DEPARA||{})[y.item_id]||"");if(!a)return null;
+  const t=a.split(/[,;|]/).map(s=>s.trim());const i=t.findIndex(s=>/^M[A-Z]{2,4}\d+[A-Za-z0-9]*$/.test(s));
+  let area=i>0?t[i-1]:a;area=area.replace(/^\d+(\.\d+)*\.?\s*/,"").replace(/^Consórcio público intermunicipal\s*[-–]\s*/i,"").trim();
+  const ano=(i>=0?t.slice(i+1):t).find(s=>/^(19|20)\d{2}$/.test(s));return{area,ano}}
+function rotuloItem(y){const c=consInfo(y);return c&&c.area?`Consórcio público: ${c.area}`:y.rotulo}
+function anoItem(y){const c=consInfo(y);return (c&&c.ano)||y.ano||"ano não informado"}
+function detail(k){if(!S.model)return `<div class="loading">Carregando componentes…</div>`;
+  const it=(S.model.itens||[]).filter(x=>x.indice===k).sort((a,b)=>nat(a.dimensao,b.dimensao)||(num(a.ordem)||0)-(num(b.ordem)||0)||nat(a.rotulo,b.rotulo));
+  const dims={};it.forEach(x=>(dims[x.dimensao||"Componentes"]??=[]).push(x));
+  const note=k==="ICE"?"Valores observados no município.":"Valores observados no município. A pobreza entra no índice com sinal invertido.";
+  return `<p class="dnote">${note}</p>`+Object.entries(dims).map(([d,xs])=>{const g={};xs.forEach(x=>(g[x.grupo||"Componentes"]??=[]).push(x));
+    return `<details class="dim" open><summary>${esc(d)}<em>${xs.length}</em></summary>${Object.entries(g).map(([gn,ys])=>`<div class="grp">${esc(gn)}</div>${ys.map(y=>`<div class="mv"><div class="mv-h"><strong>${esc(rotuloItem(y))}</strong><span>${esc(y.valor_exibido||"Sem dado")}</span></div><small>${esc(y.fonte||"Fonte não informada")} · ${esc(anoItem(y))}${y.unidade?" · "+esc(y.unidade):""}</small></div>`).join("")}`).join("")}</details>`}).join("")}
+function peersOf(m){const p=m?.pares;if(!p?.disponivel)return[];return N.filter(x=>String(x.cd_munic)!==S.sel&&samePeer(x,p))}
+function comp(){const m=rec(S.sel),p=m?.pares;if(!p?.disponivel)return `<div class="card"><span class="eyebrow">Comparativos</span><p class="note">Este município não tem grupo de pares.</p></div>`;
+  const peers=peersOf(m);
+  const strip=(lab,key,cls)=>{const me=num(p[key]),B=20,h=new Array(B).fill(0);peers.forEach(x=>{const v=num(x.pares[key]);if(Number.isFinite(v))h[Math.min(B-1,Math.floor(v*B))]++});const mx=Math.max(1,...h),mb=Number.isFinite(me)?Math.min(B-1,Math.floor(me*B)):-1;
+  return `<div class="hist ${cls}"><div class="hist-h"><span class="kpi-l">${lab}</span><b>${Number.isFinite(me)?"Melhor que "+Math.round(me*100)+"% do grupo":"Sem dado"}</b></div><div class="hist-bars">${h.map((n,i)=>`<i class="${i===mb?"on":""}" style="height:${Math.max(4,n/mx*100)}%" title="${i*5}% a ${(i+1)*5}%: ${n} municípios"></i>`).join("")}<span class="hist-med" title="Mediana do grupo"></span></div><div class="hist-ax"><span>pior</span><span>mediana do grupo</span><span>melhor</span></div></div>`};
+  /* PAINEL_V14 */
+  const ent=x=>{const v=num(x.pares.percentil_entrega);return Number.isFinite(v)?v:-1};
+  const best=peers.filter(x=>x.uf===m.uf).sort((a,b)=>ent(b)-ent(a)).slice(0,5);
+  const list=best.map(x=>{const k=qc(x.pares.quadrante_pares),q=Q[k];return `<button type="button" data-go="${esc(x.cd_munic)}"><span class="sym" style="background:${q?.c||ND}">${q?.s||"–"}</span><span><b>${esc(x.municipio)} - ${esc(x.uf)}</b><small>Entrega ${Math.round(num(x.pares.percentil_entrega)*100)}% · Capacidade ${Math.round(num(x.pares.percentil_capacidade)*100)}%</small></span><em>Ver ›</em></button>`}).join("");
+  return `<section class="card"><span class="eyebrow">Posição no grupo de pares</span><span class="c-sub">Cada barra mostra quantos municípios do grupo estão naquela faixa de posição. A barra colorida é a faixa de ${esc(m.municipio)}.</span>${strip("Capacidade estatal","percentil_capacidade","cap")}${strip("Entrega governamental","percentil_entrega","ent")}<button class="linkbtn ${S.ruler==="pares"&&S.peerFocus?"on":""}" id="seePeers" type="button" aria-pressed="${S.ruler==="pares"&&S.peerFocus}">${S.ruler==="pares"&&S.peerFocus?"✓ Pares destacados no mapa · desativar":"Destacar pares no mapa"}</button></section><section class="card"><span class="eyebrow">Com quem comparar</span><span class="c-title">Melhores posições em entrega no mesmo estado</span><span class="c-sub">Municípios do mesmo grupo de pares em ${esc(m.uf)}, ordenados pela entrega no grupo.</span><div class="peer-list">${list||'<p class="note">Não há outro município do mesmo grupo de pares neste estado.</p>'}</div></section>`}
+function dados(){const p=S.payload;if(!p)return `<div class="loading">Carregando…</div>`;const Fm={};p.variaveis.slice().sort((a,b)=>nat(a.k,b.k)).forEach(v=>((Fm[v.b||"Outras"]??={})[v.g||"Geral"]??=[]).push(v));
+  const html=Object.keys(Fm).sort(nat).map(f=>{const tot=Object.values(Fm[f]).flat().length;return `<details class="fam"><summary>${esc(f)}<em>${tot.toLocaleString("pt-BR")}</em></summary>${Object.keys(Fm[f]).sort(nat).map(g=>`<details class="thm"><summary>${esc(g)}<em>${Fm[f][g].length}</em></summary>${Fm[f][g].map(v=>`<div class="var" data-s="${esc(normal((v.d||"")+" "+(v.k||"")+" "+(v.v||"")+" "+(v.f||"")+" "+g))}"><strong>${esc(v.d||v.k)}</strong><div class="val">${esc(v.x)}</div><small>${esc(v.f||"")}${v.a?" · "+esc(v.a):""} · código ${esc(v.v||v.k)}</small></div>`).join("")}</details>`).join("")}</details>`}).join("");
+  return `<div class="d-tools"><input id="dq" placeholder="Buscar variável, tema ou fonte" /><button id="dcsv" type="button">Exportar CSV</button></div><p class="note" style="margin:0 0 8px">${p.variaveis.length.toLocaleString("pt-BR")} registros disponíveis.</p><div id="dlist">${html}</div>`}
+function renderBody(){const b=$("#sideBody");if(!b)return;
+  if(S.tab==="indices"&&(S.open.ICE||S.open.IEG)&&!S.model&&S.modelCode!==S.sel){S.modelCode=S.sel;window.__carregarModeloMunicipio(S.sel)}
+  b.innerHTML=S.tab==="geral"?geral():S.tab==="indices"?indices():S.tab==="comp"?comp():dados();
+  b.querySelectorAll("[data-idx]").forEach(x=>x.onclick=()=>{const k=x.dataset.idx;S.open[k]=!S.open[k];renderBody()});
+  b.querySelectorAll("[data-go]").forEach(x=>x.onclick=()=>select(x.dataset.go,true));
+  const sp=b.querySelector("#seePeers");if(sp)sp.onclick=()=>{if(S.ruler==="pares"&&S.peerFocus){S.peerFocus=false;refresh();renderBody()}else{S.peerFocus=true;if(S.ruler!=="pares")document.querySelector('.seg button[data-ruler="pares"]').click();else{refresh();renderBody()}}};
+  const dq=b.querySelector("#dq");if(dq){dq.oninput=()=>{const q=normal(dq.value);b.querySelectorAll(".var").forEach(v=>v.classList.toggle("hidden",!!q&&!v.dataset.s.includes(q)));b.querySelectorAll(".thm,.fam").forEach(d=>{const any=[...d.querySelectorAll(".var")].some(v=>!v.classList.contains("hidden"));d.classList.toggle("hidden",!any);if(q&&any)d.open=true})};b.querySelector("#dcsv").onclick=csv}}
+function csv(){const p=S.payload;if(!p)return;const m=rec(S.sel)||NAMES[S.sel]||{};const e=v=>'"'+String(v??"").replace(/"/g,'""')+'"';const rows=[["codigo_ibge","municipio","uf","base","tema","codigo_variavel","rotulo","valor","fonte","ano"]];
+  p.variaveis.forEach(v=>rows.push([S.sel,m.municipio||"",m.uf||"",v.b,v.g,v.v,v.d,v.x,v.f,v.a]));
+  const blob=new Blob(["\ufeff"+rows.map(r=>r.map(e).join(";")).join("\r\n")],{type:"text/csv;charset=utf-8"}),u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=S.sel+"_"+normal(m.municipio||"municipio").replace(/[^a-z0-9]+/g,"_")+".csv";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function page(k){document.querySelectorAll(".menu button").forEach(b=>b.classList.toggle("active",b.dataset.page===k));document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));if(k!=="mapa"){const el=$("#page-"+k);el.classList.remove("hidden");el.scrollTop=0}else draw()}
+document.querySelectorAll(".menu button").forEach(b=>b.onclick=()=>page(b.dataset.page));
+
+(function(){const m=$("#aviso"),k="painel-v13-aviso-aceito";try{if(localStorage.getItem(k)==="1")m.hidden=true}catch(e){}$("#avisoOk").onclick=()=>{if($("#avisoLembrar").checked){try{localStorage.setItem(k,"1")}catch(e){}}m.hidden=true}})();
+markSet();refresh();
+window.__painelV10={S,select,refresh};
+})();
+</script>
+</body>
+</html>
