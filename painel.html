@@ -389,6 +389,18 @@ html,body{max-width:100%;overflow-x:hidden}
 @media (min-width:761px) and (max-width:1449px){.search{flex-basis:200px}.seg button{padding:0 9px}}
 @media (min-width:761px) and (max-width:1349px){.main{grid-template-columns:minmax(0,1fr) 380px}}
 @media (min-width:761px) and (max-width:1100px){.main{height:auto}.foot{position:static}}
+/* PAINEL_V18 */
+.legend .box{flex:0 0 auto!important;min-height:auto!important;overflow:visible}
+.legend{overflow-y:auto}
+.brand-link{color:inherit;text-decoration:none}
+/* PAINEL_V20_INDEX_UNICO */
+#inicio{position:fixed;inset:0;z-index:2000;overflow:auto;background:#fff;-webkit-overflow-scrolling:touch}
+body.ini-off #inicio{display:none}
+body:not(.ini-off){overflow:hidden}
+/* PAINEL_V21 */
+.legend .box{flex:0 0 auto!important;min-height:auto!important;overflow:visible}
+.legend{overflow-y:auto}
+.brand-link{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
@@ -414,7 +426,7 @@ html,body{max-width:100%;overflow-x:hidden}
 <header class="top">
   <div class="brand">
     <div class="brand-org">Ministério da Gestão e da Inovação em Serviços Públicos</div>
-    <div><h1>Capacidade estatal e entrega nos municípios brasileiros</h1><small>Painel municipal · dados do estudo da Enap · versão 13</small></div>
+    <div><h1><a class="brand-link" href="index.html" title="Voltar à tela inicial">Capacidade estatal e entrega nos municípios brasileiros</a></h1><small>Painel municipal · dados do estudo da Enap · versão 13</small></div>
   </div>
   <nav class="menu" aria-label="Seções">
     <button class="active" data-page="mapa" type="button">Mapa</button>
@@ -782,7 +794,7 @@ function hideTip(){TIP.style.opacity=0}
 function legend(){
   const pares=S.ruler==="pares";
   $("#lgTitle").textContent=pares?"Legenda · entre pares":"Legenda · régua nacional";
-  const lv=t=>t.toLowerCase().includes("alta")?"alta":"baixa";const it=Object.entries(Q).map(([k,q])=>{const [c,e]=q.short.split(" / ");const ar=v=>v==="alta"?"↑":"↓";return `<div class="lg-item"><span class="sym" style="background:${q.c}">${q.s}</span><div><b>${k}</b><div class="lg-tags"><span class="tg">${ar(lv(c))} Capacidade ${lv(c)}</span><span class="tg">${ar(lv(e))} Entrega ${lv(e)}</span></div></div></div>`}).join("");
+  const lv=t=>t.toLowerCase().includes("alta")?"alta":"baixa";const it=Object.entries(Q).map(([k,q])=>{const [c,e]=q.short.split(" / ");const ar=v=>v==="alta"?"↑":"↓";return `<div class="lg-item"><span class="sym" style="background:${q.c}">${q.s}</span><div><b>${k}</b><div class="lg-tags"><span class="tg">${ar(lv(e))} Entrega ${lv(e)}</span><span class="tg">${ar(lv(c))} Capacidade ${lv(c)}</span></div></div></div>`}).join("");
   const nd=`<div class="lg-item"><span class="sym" style="background:${ND};color:#3d4f66">–</span><div><b>${pares?"Sem comparação entre pares":"Município sem dado"}</b><span>${pares?"fora dos grupos de pares":"para classificação"}</span></div></div>`;
   const fade=peerRef()?`<div class="lg-item"><span class="sym" style="background:${ND};opacity:.45"></span><div><b>Esmaecido</b><span>fora do grupo de pares</span></div></div>`:"";
   $("#lgItems").innerHTML=it+nd+fade;
@@ -1030,5 +1042,15 @@ applyMob();fCount();
 window.__painelV10={S,select,refresh};
 })();
 </script>
-</body>
+<script>/* PAINEL_V21 */
+(function(){
+  var m=document.querySelector('.menu');
+  if(m&&!document.getElementById('btnInicio')){
+    var b=document.createElement('button');b.type='button';b.id='btnInicio';b.textContent='Início';
+    b.title='Voltar à tela inicial';b.onclick=function(){location.href='index.html';};
+    m.insertBefore(b,m.firstChild);
+  }
+  document.querySelectorAll('a.brand-link').forEach(function(a){a.setAttribute('href','index.html');});
+})();
+</script></body>
 </html>
