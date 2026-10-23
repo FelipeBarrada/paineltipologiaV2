@@ -1,0 +1,841 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Gerador de mapas · Tipologia de municípios</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.4 "Segoe UI",Arial,sans-serif;color:#0f2341;background:#eef2f7;display:grid;grid-template-columns:320px 1fr;height:100vh}
+aside{padding:18px;background:#fff;border-right:1px solid #dde5ee;overflow:auto}
+h1{margin:0 0 14px;font-size:17px;color:#071d41}
+label{display:block;margin:12px 0 4px;font-size:12px;font-weight:700;color:#41546b}
+select,input[type=text],textarea{width:100%;padding:8px;border:1px solid #cfd8e3;border-radius:8px;font:inherit}
+textarea{height:54px;resize:vertical}
+.chk{display:flex;gap:8px;align-items:center;margin-top:10px;font-weight:400;color:#0f2341}
+button{width:100%;margin-top:16px;padding:11px;border:0;border-radius:9px;background:#1351b4;color:#fff;font-weight:700;cursor:pointer}
+button.sec{background:#fff;color:#1351b4;border:1px solid #1351b4}
+small{display:block;margin-top:6px;color:#5c6b7d}
+main{overflow:auto;padding:20px;display:flex;align-items:flex-start;justify-content:center}
+#prev{width:100%;max-width:1400px;background:#fff;box-shadow:0 8px 30px rgba(7,29,65,.12)}
+#err{color:#b2342e;font-weight:700}
+</style>
+</head>
+<body>
+<!-- BARRA_COMUM_V3_INICIO -->
+<style>
+:root{--sx-h:68px}
+@media (min-width:761px) and (max-width:1699px),(min-width:761px) and (max-height:899px){:root{--sx-h:58px}}
+@media (max-width:760px){:root{--sx-h:56px}}
+body{padding-top:var(--sx-h)!important;box-sizing:border-box}
+.sx-top{position:fixed;top:0;left:0;right:0;z-index:2147483000;height:var(--sx-h);display:flex;align-items:center;gap:22px;
+padding:0 24px;background:#071d41;color:#fff;font:14px/1.45 "Segoe UI",Inter,Verdana,Arial,sans-serif;box-sizing:border-box;text-align:left}
+.sx-top *{box-sizing:border-box}
+.sx-brand{display:flex;align-items:center;gap:16px;min-width:0}
+.sx-org{padding-right:16px;border-right:1px solid rgba(255,255,255,.25);font-size:11px;line-height:1.25;color:#cfdcf0;max-width:190px}
+.sx-ttl{min-width:0}
+.sx-top .sx-h1{display:block;margin:0;font-size:19px;font-weight:700;line-height:1.45;letter-spacing:-.01em;color:#fff;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sx-ttl small{display:block;color:#b9c9e3;font-size:11.5px;line-height:1.45}
+.sx-menu{display:flex;gap:4px;margin-left:auto}
+.sx-top .sx-menu a{display:inline-flex;align-items:center;height:var(--sx-h);padding:0 13px;border-bottom:3px solid transparent;color:#cfdcf0;font-size:13px;font-weight:400;text-decoration:none;white-space:nowrap}
+.sx-top .sx-menu a:hover{color:#fff}
+.sx-top .sx-menu a.sx-on{color:#fff;font-weight:700;border-bottom-color:#6ea8ff}
+.sx-burger{display:none;place-items:center;flex:0 0 44px;height:44px;border:0;border-radius:10px;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer}
+@media (min-width:761px) and (max-width:1699px),(min-width:761px) and (max-height:899px){
+.sx-top .sx-menu a{padding:0 10px;font-size:12.5px}
+.sx-top .sx-h1{font-size:17px}.sx-ttl small{font-size:11px}.sx-org{font-size:10px;max-width:170px}}
+@media (max-width:760px){
+.sx-top{gap:8px;padding:0 10px 0 14px}
+.sx-org{display:none}
+.sx-brand{flex:1;min-width:0;gap:0}
+.sx-top .sx-h1{font-size:15px}
+.sx-ttl small{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sx-burger{display:grid}
+.sx-menu{display:none;position:fixed;top:calc(var(--sx-h) + 2px);right:8px;flex-direction:column;gap:2px;min-width:230px;margin:0;padding:6px;border:1px solid #dde5ee;border-radius:14px;background:#fff;box-shadow:0 16px 40px rgba(7,29,65,.22)}
+.sx-open .sx-menu{display:flex}
+.sx-top .sx-menu a{height:48px;padding:0 14px;border:0;border-radius:10px;color:#071d41;font-size:14px}
+.sx-top .sx-menu a:hover{color:#071d41;background:#f2f6fb}
+.sx-top .sx-menu a.sx-on{background:#e8f1ff;color:#071d41;font-weight:700}}
+</style>
+<header class="sx-top" id="sxTop">
+ <div class="sx-brand">
+  <div class="sx-org">Ministério da Gestão e da Inovação em Serviços Públicos</div>
+  <div class="sx-ttl"><a class="sx-h1" href="index.html.antes_links_20261023_132619.bak" title="Voltar à tela inicial">Capacidade estatal e entrega nos municípios brasileiros</a>
+  <small>Painel municipal · dados do estudo da Enap · versão 13</small></div>
+ </div>
+ <nav class="sx-menu" aria-label="Seções">
+  <a href="index.html.antes_links_20261023_132619.bak">Início</a>
+  <a href="painel.html">Painel</a>
+  <a href="painel.html#sobre">Sobre o estudo</a>
+  <a href="painel.html#metodo">Metodologia</a>
+  <a href="painel.html#faq">Perguntas frequentes</a>
+  <a href="mapas.html" class="sx-on" aria-current="page">Gerar mapas</a>
+ </nav>
+ <button class="sx-burger" id="sxBurger" type="button" aria-label="Menu">☰</button>
+</header>
+<script>
+(function(){
+  var h=document.getElementById('sxTop'),b=document.getElementById('sxBurger');
+  if(!h||!b)return;
+  b.onclick=function(e){e.stopPropagation();h.classList.toggle('sx-open')};
+  document.addEventListener('click',function(e){if(!e.target.closest('.sx-menu,.sx-burger'))h.classList.remove('sx-open')});
+})();
+</script>
+<!-- BARRA_COMUM_V3_FIM -->
+
+<aside>
+  <h1>Gerador de mapas</h1>
+  <label>Mapa</label>
+  <select id="tipo">
+    <option value="nac">Quadrantes · régua nacional</option>
+    <option value="par">Quadrantes · entre pares</option>
+    <option value="riq">Quadrante nacional × PIB per capita</option>
+    <option value="ice">Índice de Capacidade Estatal (ICE)</option>
+    <option value="ieg">Índice de Entrega Governamental (IEG)</option>
+    <option value="var">Variável de um índice (ICE ou IEG)</option>
+  </select>
+  <div id="varBox" hidden>
+    <label>Variável do índice</label>
+    <select id="varSel"></select>
+    <small id="varInfo"></small>
+  </div>
+  <label>Recorte</label>
+  <select id="uf"><option value="">Brasil</option></select>
+  <label class="chk"><input type="checkbox" id="entorno" /> Mostrar estados vizinhos em cinza (só no recorte por UF)</label>
+  <label class="chk" id="infoBox" style="display:none"><input type="checkbox" id="info" checked /> Incluir quadros de informação do estado</label>
+  <label>Limites municipais</label><select id="traco"><option value="0.12">Muito discretos</option><option value="0.22" selected>Discretos (recomendado)</option><option value="0.4">Mais visíveis</option><option value="0">Sem limites municipais</option></select>
+  <label>Título</label>
+  <input type="text" id="titulo" />
+  <label>Subtítulo</label>
+  <input type="text" id="sub" />
+  <label>Fonte (rodapé)</label>
+  <textarea id="fonte"></textarea>
+  <label>Resolução do download</label>
+  <select id="res">
+    <option value="2400">2400 px de largura (apresentação)</option>
+    <option value="3600" selected>3600 px (alta)</option>
+    <option value="5400">5400 px (impressão)</option>
+  </select>
+  <button id="baixar" type="button">Baixar imagem PNG</button>
+  <button id="auto" class="sec" type="button">Restaurar título e fonte automáticos</button>
+  <p id="err"></p>
+  <p id="status" style="color:#5c6b7d;font-size:12px"></p>
+</aside>
+<main><canvas id="prev"></canvas></main>
+
+<script src="data/resumo.js"></script>
+<script src="data/modelo_catalogo.js"></script>
+<script>window.CONSORCIO_DEPARA={"consorcio_a": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.1 Educação,MART01,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_b": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.2 Saúde,MART02,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_c": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.3 Assistência e desenvolvimento social,MART03,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_d": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.7 Meio ambiente,MART07,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_e": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.9 Desenvolvimento urbano,MART09,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM", "consorcio_f": "IBGE - MUNIC,variaveis_munic.xlsx,5. Articulação Interinstitucional,5.10 Saneamento básico,MART10,O município faz parte de consórcio público na área,2019,5570,100.0,2019,SIM"};</script>
+<script src="data/topologia.js"></script>
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const err=t=>{$("#err").textContent=t};
+if(!window.PAINEL_TOPOLOGY||!window.PAINEL_RESUMO){err("Não encontrei data/resumo.js e data/topologia.js. Salve este arquivo dentro de Pipeline\\saida_final.");return}
+
+const UF={"11":"RO","12":"AC","13":"AM","14":"RR","15":"PA","16":"AP","17":"TO","21":"MA","22":"PI","23":"CE","24":"RN","25":"PB","26":"PE","27":"AL","28":"SE","29":"BA","31":"MG","32":"ES","33":"RJ","35":"SP","41":"PR","42":"SC","43":"RS","50":"MS","51":"MT","52":"GO","53":"DF"};
+const NOME={AC:"Acre",AL:"Alagoas",AP:"Amapá",AM:"Amazonas",BA:"Bahia",CE:"Ceará",DF:"Distrito Federal",ES:"Espírito Santo",GO:"Goiás",MA:"Maranhão",MT:"Mato Grosso",MS:"Mato Grosso do Sul",MG:"Minas Gerais",PA:"Pará",PB:"Paraíba",PR:"Paraná",PE:"Pernambuco",PI:"Piauí",RJ:"Rio de Janeiro",RN:"Rio Grande do Norte",RS:"Rio Grande do Sul",RO:"Rondônia",RR:"Roraima",SC:"Santa Catarina",SP:"São Paulo",SE:"Sergipe",TO:"Tocantins"};
+const Q={Q1:{c:"#009E73",s:"●",t:"Q1 · Alta capacidade e alta entrega"},Q2:{c:"#E69F00",s:"▲",t:"Q2 · Alta capacidade e baixa entrega"},Q3:{c:"#0072B2",s:"◆",t:"Q3 · Baixa capacidade e alta entrega"},Q4:{c:"#D55E00",s:"■",t:"Q4 · Baixa capacidade e baixa entrega"}};
+const ND="#d3d9e0", BLUES=["#eff3ff","#c6dbef","#6baed6","#2171b5","#08306b"];
+const PIB_CORTES=[15600,24400,37800,56700];
+const R=window.PAINEL_RESUMO;
+const num=v=>{if(v==null||v==="")return NaN;let s=String(v).trim().replace(/\s/g,"");if(s.includes(",")&&s.includes("."))s=s.replace(/\./g,"").replace(",",".");else if(s.includes(","))s=s.replace(",",".");return Number(s)};
+const fmtR=v=>"R$ "+(v/1000).toLocaleString("pt-BR",{maximumFractionDigits:1})+" mil";
+const fmtN=v=>v.toLocaleString("pt-BR",{maximumFractionDigits:2});
+
+/* ---------- topologia ---------- */
+const T=window.PAINEL_TOPOLOGY, O=Object.values(T.objects)[0], tr=T.transform;
+const ARCS=T.arcs.map(a=>{if(!tr)return a.map(p=>[p[0],p[1]]);let x=0,y=0;return a.map(p=>{x+=p[0];y+=p[1];return[x*tr.scale[0]+tr.translate[0],y*tr.scale[1]+tr.translate[1]]})});
+const arcUF=new Map(), arcN=new Map();
+const G=[];
+O.geometries.forEach(g=>{
+  const d=g.properties||{};const cod=String(d.cd_munic||d.CD_MUN||d.code_muni||d.id||"").replace(".0","").slice(0,7);
+  const uf=UF[cod.slice(0,2)]||"";
+  const polys=g.type==="Polygon"?[g.arcs]:g.type==="MultiPolygon"?g.arcs:[];
+  const used=new Set();
+  const rings=[];let b=[1e9,1e9,-1e9,-1e9];
+  polys.forEach(p=>p.forEach(ring=>{
+    const pts=[];
+    ring.forEach(a=>{const i=a<0?~a:a;used.add(i);let s=ARCS[i];if(a<0)s=s.slice().reverse();s.forEach(q=>pts.push(q))});
+    pts.forEach(([x,y])=>{if(x<b[0])b[0]=x;if(y<b[1])b[1]=y;if(x>b[2])b[2]=x;if(y>b[3])b[3]=y});
+    rings.push(pts);
+  }));
+  used.forEach(i=>{if(!arcUF.has(i))arcUF.set(i,new Set());arcUF.get(i).add(uf);arcN.set(i,(arcN.get(i)||0)+1)});
+  G.push({cod,uf,rings,b});
+});
+const C6={};G.forEach(g=>C6[g.cod.slice(0,6)]=g.cod);
+[...new Set(G.map(g=>g.uf).filter(Boolean))].sort().forEach(u=>$("#uf").add(new Option(NOME[u]||u,u)));
+
+/* ---------- indices e variaveis ---------- */
+/* GERADOR_V5 */
+function quantis(vals,k){const v=vals.slice().sort((a,b)=>a-b);const c=[];for(let i=1;i<k;i++)c.push(v[Math.floor(i*v.length/k)]);return c}
+function classe(v,cortes){let i=0;while(i<cortes.length&&v>=cortes[i])i++;return i}
+function shade(k,t){const h=Q[k].c,a=parseInt(h.slice(1),16),b=t===0?255:0,w=t===0?.55:t===2?.38:0;return 'rgb('+[16,8,0].map(z=>Math.round(((a>>z)&255)*(1-w)+b*w)).join(',')+')'}
+const CAT=window.PAINEL_MODELO_CATALOGO||[];
+const ITEM={};
+CAT.forEach(c=>{ITEM[c.item_id]=c});
+function consInfo(y){
+  const a=String((window.CONSORCIO_DEPARA||{})[y.item_id]||"");
+  if(!a)return null;
+  const t=a.split(/[,;|]/).map(s=>s.trim());
+  const i=t.findIndex(s=>/^M[A-Z]{2,4}\d+[A-Za-z0-9]*$/.test(s));
+  let area=i>0?t[i-1]:a;
+  area=area.replace(/^\d+(\.\d+)*\.?\s*/,"").replace(/^Consórcio público intermunicipal\s*[-–]\s*/i,"").trim();
+  const ano=(i>=0?t.slice(i+1):t).find(s=>/^(19|20)\d{2}$/.test(s));
+  return{area,ano};
+}
+function rotulo(it){const c=consInfo(it);return c&&c.area?"Consórcio público: "+c.area:it.rotulo}
+function anoDe(it){const c=consInfo(it);return(c&&c.ano)||it.ano||""}
+const BASES="Bases dos índices: MUNIC/IBGE, RAIS, SICONFI/STN, INEP, DataSUS e Censo 2022. Malha: IBGE. Elaboração: SETE/MGI.";
+const fmtV=(v,span)=>v.toLocaleString("pt-BR",{minimumFractionDigits:0,maximumFractionDigits:span>=100?0:span>=10?1:2});
+const corFaixa=(i,n)=>BLUES[n<=1?3:Math.round(i*4/(n-1))];
+function faixas(c,mn,f){
+  const n=c.length+1,out=[];
+  for(let i=0;i<n;i++)out.push(n===1?"Valor único: "+f(mn):i===0?"Menos de "+f(c[0]):i===n-1?f(c[n-2])+" ou mais":f(c[i-1])+" a "+f(c[i]));
+  return out;
+}
+function esqFaixas(valor,c,mn,f,titulo,semTxt){
+  const n=c.length+1,rot=faixas(c,mn,f);
+  const itens=rot.map((t,i)=>({k:i,cor:corFaixa(i,n),sim:"",txt:t}));
+  itens.push({k:null,cor:ND,sim:"",txt:semTxt});
+  return{val:g=>{const v=valor(g);return Number.isFinite(v)?classe(v,c):null},cor:k=>k==null?ND:corFaixa(k,n),itens,titulo};
+}
+function esqSoSemDado(titulo){
+  return{val:()=>null,cor:()=>ND,itens:[{k:null,cor:ND,sim:"",txt:"Sem dado"}],titulo};
+}
+const IDXCUT={};
+function cortesIdx(campo){
+  if(IDXCUT[campo])return IDXCUT[campo];
+  const v=Object.values(R).map(m=>num(m[campo])).filter(Number.isFinite);
+  let mn=Infinity;
+  v.forEach(x=>{if(x<mn)mn=x});
+  const c=[...new Set(quantis(v,5))].filter(x=>x>mn).sort((a,b)=>a-b);
+  return IDXCUT[campo]={c,mn};
+}
+/* componentes dos indices: um arquivo por municipio, carregado sob demanda */
+const COMP={};
+let CARREGANDO=false,FEITOS=0,TOTAL=0,FALHAS=0,PADRONIZADO=false;
+async function baixarGz(url){
+  const r=await fetch(url);
+  if(!r.ok)throw new Error(url+" -> "+r.status);
+  const buf=await r.arrayBuffer(),b=new Uint8Array(buf);
+  if(b[0]===0x1f&&b[1]===0x8b){
+    const ds=new DecompressionStream("gzip");
+    return await new Response(new Blob([buf]).stream().pipeThrough(ds)).text();
+  }
+  return new TextDecoder("utf-8").decode(buf);
+}
+function codigosRecorte(){const u=$("#uf").value;return[...new Set(G.filter(g=>!u||g.uf===u).map(g=>g.cod))]}
+function pendentes(){return codigosRecorte().filter(c=>!(c in COMP))}
+function pend(){return $("#tipo").value==="var"&&(CARREGANDO||pendentes().length>0)}
+function statusComp(){
+  const s=$("#status");
+  if($("#tipo").value!=="var"){s.textContent="";return}
+  if(CARREGANDO){s.textContent="Carregando componentes: "+FEITOS.toLocaleString("pt-BR")+" de "+TOTAL.toLocaleString("pt-BR")+"…"+(BAIXAR_PRONTO?" O download começa assim que terminar.":"");return}
+  if(TOTAL>0&&FALHAS>=TOTAL){s.textContent="Não foi possível carregar os componentes. Abra o gerador pelo servidor local ou pelo site publicado, não direto pelo arquivo.";return}
+  const aviso=[];
+  if(FALHAS)aviso.push(FALHAS.toLocaleString("pt-BR")+" município(s) sem arquivo de componentes.");
+  if(PADRONIZADO)aviso.push("Esta variável só tem o valor padronizado do modelo; o mapa usa esse valor.");
+  s.textContent=aviso.join(" ");
+}
+async function carregarComponentes(){
+  if(CARREGANDO)return;
+  const fila=pendentes();
+  if(!fila.length){statusComp();return}
+  CARREGANDO=true;TOTAL=fila.length;FEITOS=0;FALHAS=0;
+  let pos=0;
+  const um=async()=>{
+    while(pos<fila.length){
+      const cod=fila[pos++];
+      try{
+        const raw=JSON.parse(await baixarGz("data/mun/"+cod+".json.gz")),o={};
+        (raw.m||[]).forEach(l=>{o[l[0]]=[l[1],l[2],l[3]]});
+        COMP[cod]=o;
+      }catch(e){COMP[cod]=null;FALHAS++}
+      FEITOS++;
+      if(FEITOS%60===0){statusComp();render()}
+    }
+  };
+  await Promise.all(Array.from({length:24},um));
+  CARREGANDO=false;
+  if(pendentes().length&&$("#tipo").value==="var"){carregarComponentes();return}
+  statusComp();render();
+  if(window.__baixarQuandoPronto)window.__baixarQuandoPronto();
+}
+const ehSim=s=>typeof s==="string"&&s.trim().toLowerCase()==="sim";
+const ehNao=s=>typeof s==="string"&&["não","nao"].includes(s.trim().toLowerCase());
+function esqVariavel(){
+  const id=$("#varSel").value,it=ITEM[id];
+  if(!it)return esqSoSemDado("Variável não encontrada");
+  const cods=codigosRecorte();
+  let nBin=0,nObs=0,nTot=0;
+  cods.forEach(c=>{
+    const e=COMP[c]&&COMP[c][id];
+    if(!e)return;
+    nTot++;
+    if(ehSim(e[2])||ehNao(e[2]))nBin++;
+    if(Number.isFinite(num(e[1])))nObs++;
+  });
+  const bin=nBin>0&&nBin>=nTot*.5,usaObs=!bin&&nObs>=nTot*.5;
+  PADRONIZADO=!bin&&nTot>0&&!usaObs;
+  const valor=g=>{
+    const e=COMP[g.cod]&&COMP[g.cod][id];
+    if(!e)return NaN;
+    if(bin)return ehSim(e[2])?1:ehNao(e[2])?0:NaN;
+    return usaObs?num(e[1]):num(e[0]);
+  };
+  if(bin){
+    return{val:g=>{const v=valor(g);return Number.isFinite(v)?v:null},cor:k=>k===1?BLUES[3]:k===0?BLUES[1]:ND,
+      itens:[{k:1,cor:BLUES[3],sim:"",txt:"Sim"},{k:0,cor:BLUES[1],sim:"",txt:"Não"},{k:null,cor:ND,sim:"",txt:"Sem dado"}],titulo:"Resposta · Sim ou Não"};
+  }
+  const vs=cods.map(c=>valor({cod:c})).filter(Number.isFinite);
+  if(!vs.length)return esqSoSemDado(pend()?"Carregando…":"Sem dados no recorte");
+  let mn=Infinity,mx=-Infinity;
+  vs.forEach(x=>{if(x<mn)mn=x;if(x>mx)mx=x});
+  const c=[...new Set(quantis(vs,5))].filter(x=>x>mn).sort((a,b)=>a-b);
+  return esqFaixas(valor,c,mn,v=>fmtV(v,mx-mn),PADRONIZADO?"Valor padronizado · faixas":"Valores · faixas do recorte","Sem dado");
+}
+function esquema(tipo,sel){
+  if(tipo==="riq"){
+    const val=g=>{const m=R[g.cod];if(!m)return null;const k=String(m.quadrante||'').slice(0,2),v=num(m.pib_pc??m.pares?.pib_pc_2023);return Q[k]&&Number.isFinite(v)?k+'_'+(v<=30000?0:v<=60000?1:2):null};
+    const itens=[];
+    Object.keys(Q).forEach(k=>[0,1,2].forEach(t=>itens.push({k:k+'_'+t,cor:shade(k,t),sim:Q[k].s,txt:k+' · PIB '+['baixo','intermediário','alto'][t]})));
+    itens.push({k:null,cor:ND,sim:'',txt:'Sem classificação ou PIB'});
+    return{val,cor:k=>k?shade(k.split('_')[0],+k.split('_')[1]):ND,itens,titulo:'Quadrante nacional × PIB per capita'};
+  }
+  if(tipo==="nac"||tipo==="par"){
+    const val=g=>{const m=R[g.cod];if(!m)return null;const q=String(tipo==="nac"?m.quadrante:(m.pares&&m.pares.disponivel?m.pares.quadrante_pares:"")).slice(0,2);return Q[q]?q:null};
+    const itens=Object.entries(Q).map(([k,q])=>({k,cor:q.c,sim:q.s,txt:q.t}));
+    itens.push({k:null,cor:ND,sim:"",txt:tipo==="par"?"Sem comparação entre pares":"Sem classificação (dados incompletos)"});
+    return{val,cor:k=>k?Q[k].c:ND,itens,titulo:tipo==="nac"?"Quadrante · régua nacional":"Quadrante · entre pares"};
+  }
+  if(tipo==="ice"||tipo==="ieg"){
+    const campo=tipo.toUpperCase(),k=cortesIdx(campo);
+    return esqFaixas(g=>{const m=R[g.cod];return m?num(m[campo]):NaN},k.c,k.mn,v=>fmtV(v,2),campo+" · faixas nacionais","Sem classificação");
+  }
+  return esqVariavel();
+}
+function popularVar(){
+  const s=$("#varSel");
+  s.innerHTML="";
+  const ordem=CAT.slice().sort((a,b)=>(a.indice===b.indice?0:a.indice==="ICE"?-1:1)||String(a.dimensao||"").localeCompare(String(b.dimensao||""),"pt-BR")||(num(a.ordem)||0)-(num(b.ordem)||0));
+  const grupos=new Map();
+  ordem.forEach(it=>{
+    const k=it.indice+" · "+(it.dimensao||"Componentes");
+    if(!grupos.has(k)){const og=document.createElement("optgroup");og.label=k;grupos.set(k,og);s.appendChild(og)}
+    grupos.get(k).appendChild(new Option(rotulo(it),it.item_id));
+  });
+  if(!CAT.length){const o=[...$("#tipo").options].find(x=>x.value==="var");if(o){o.disabled=true;o.textContent+=" (catálogo não encontrado)"}}
+}
+function infoVar(){
+  const it=ITEM[$("#varSel").value],el=$("#varInfo");
+  if(!it){el.textContent="";return}
+  const a=anoDe(it);
+  el.textContent=[it.indice,it.dimensao,it.grupo].filter(Boolean).join(" › ")+" · "+(it.fonte||"fonte não informada")+(a?" · "+a:"")+(it.unidade?" · "+it.unidade:"")+($("#uf").value?"":". No Brasil inteiro, cada município é um arquivo: por estado é bem mais rápido.");
+}
+function autoTextos(){
+  const t=$("#tipo").value,u=$("#uf").value,lugar=u?(NOME[u]||u):"Brasil";
+  const base="Fonte: Enap, tipologia de capacidade estatal e entrega municipal.\n"+BASES;
+  const SUB={
+    riq:"Quadrantes nacionais × faixas fixas de PIB per capita",
+    nac:"Cada município comparado com todo o país",
+    par:"Cada município comparado com municípios de riqueza e porte semelhantes",
+    ice:"Valor do índice em faixas nacionais: cada faixa reúne 20% dos municípios classificados do país",
+    ieg:"Valor do índice em faixas nacionais: cada faixa reúne 20% dos municípios classificados do país"
+  };
+  let tit,sub,fonte=base;
+  if(t==="riq"){tit="Capacidade e entrega por faixa de PIB per capita";sub=SUB.riq;fonte="Fonte: Enap, tipologia de capacidade estatal e entrega municipal; IBGE, PIB dos Municípios 2023.\n"+BASES}
+  else if(t==="nac"){tit="Capacidade estatal e entrega · régua nacional";sub=SUB.nac}
+  else if(t==="par"){tit="Capacidade estatal e entrega · comparação entre pares";sub=SUB.par}
+  else if(t==="ice"){tit="Índice de Capacidade Estatal (ICE)";sub=SUB.ice}
+  else if(t==="ieg"){tit="Índice de Entrega Governamental (IEG)";sub=SUB.ieg}
+  else{
+    const it=ITEM[$("#varSel").value];
+    if(it){
+      tit=rotulo(it);
+      sub=[it.indice,it.dimensao,it.grupo].filter(Boolean).join(" › ")+(it.unidade?" · "+it.unidade:"");
+      const a=anoDe(it);
+      fonte="Fonte: Enap, tipologia de capacidade estatal e entrega municipal; "+(it.fonte||"fonte do indicador")+(a?" ("+a+")":"")+".\n"+BASES;
+    }else{tit="Variável de um índice";sub=""}
+  }
+  $("#titulo").value=tit;
+  $("#sub").value=u?sub:lugar+" · "+(t==="var"?sub:sub.charAt(0).toLowerCase()+sub.slice(1));
+  $("#fonte").value=fonte;
+}
+
+/* ---------- desenho ---------- */
+/* GERADOR_V4 */
+const FN=(w,s,u)=>`${w} ${s*u}px "Segoe UI",Arial,sans-serif`;
+const FLAGS={};
+function bandeira(uf){
+  if(!uf||(uf in FLAGS))return;
+  FLAGS[uf]=null;
+  const exts=["png","svg","jpg","jpeg","webp"];
+  const tentar=i=>{
+    if(i>=exts.length)return;
+    const im=new Image();
+    im.onload=()=>{FLAGS[uf]=im;render()};
+    im.onerror=()=>tentar(i+1);
+    im.src="data/bandeiras/"+uf+"."+exts[i];
+  };
+  tentar(0);
+}
+function ufMudou(){
+  const u=$("#uf").value;
+  $("#infoBox").style.display=u?"flex":"none";
+  if(u)bandeira(u);
+}
+const ILHAS={"2605459":"Fernando de Noronha","3205309":"Trindade e Martim Vaz (município de Vitória)"};
+const ENQ={};
+function aneis(filtro){
+  const todos=[];
+  G.forEach(g=>{
+    if(!filtro(g))return;
+    g.rings.forEach(r=>{
+      let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,a=0;
+      for(let i=0;i<r.length;i++){
+        const p=r[i],q=r[(i+1)%r.length];
+        if(p[0]<x0)x0=p[0];
+        if(p[0]>x1)x1=p[0];
+        if(p[1]<y0)y0=p[1];
+        if(p[1]>y1)y1=p[1];
+        a+=p[0]*q[1]-q[0]*p[1];
+      }
+      todos.push({r,g,b:[x0,y0,x1,y1],a:Math.abs(a)/2});
+    });
+  });
+  return todos;
+}
+function nucleo(todos){
+  todos.sort((p,q)=>q.a-p.a);
+  let B=todos[0].b.slice();
+  const dentro=new Set([todos[0]]);
+  let mudou=true;
+  while(mudou){
+    mudou=false;
+    for(const o of todos){
+      if(dentro.has(o))continue;
+      const b=o.b,gx=Math.max(0,B[0]-b[2],b[0]-B[2]),gy=Math.max(0,B[1]-b[3],b[1]-B[3]);
+      if(Math.hypot(gx,gy)<=0.8){
+        dentro.add(o);
+        B=[Math.min(B[0],b[0]),Math.min(B[1],b[1]),Math.max(B[2],b[2]),Math.max(B[3],b[3])];
+        mudou=true;
+      }
+    }
+  }
+  return{B,dentro};
+}
+function enquadrar(uf){
+  if(ENQ[uf])return ENQ[uf];
+  const todos=aneis(g=>g.uf===uf);
+  if(!todos.length)return ENQ[uf]={b:[0,0,1,1],fora:new Set(),ilhas:[]};
+  const n=nucleo(todos),fora=new Set(),nomes=new Set();
+  todos.forEach(o=>{
+    if(n.dentro.has(o))return;
+    fora.add(o.r);
+    nomes.add(ILHAS[o.g.cod]||("ilhas de "+((R[o.g.cod]||{}).municipio||o.g.cod)));
+  });
+  return ENQ[uf]={b:n.B,fora,ilhas:[...nomes]};
+}
+let BRN=null;
+function brNucleo(){
+  if(BRN)return BRN;
+  const todos=aneis(()=>true),n=nucleo(todos),fora=new Set();
+  todos.forEach(o=>{if(!n.dentro.has(o))fora.add(o.r)});
+  return BRN={b:n.B,fora};
+}
+function seco(base){
+  return new Proxy(base,{
+    get(t,k){
+      const v=t[k];
+      if(typeof v!=="function")return v;
+      if(k==="measureText")return s=>t.measureText(s);
+      return ()=>{};
+    },
+    set(t,k,v){t[k]=v;return true}
+  });
+}
+function wrapT(c,text,xx,yy,max,line){
+  let y=yy;
+  String(text).split("\n").forEach(par=>{
+    let row="";
+    par.split(/\s+/).forEach(word=>{
+      const test=row?row+" "+word:word;
+      if(row&&c.measureText(test).width>max){c.fillText(row,xx,y);y+=line;row=word}else row=test;
+    });
+    if(row)c.fillText(row,xx,y);
+    y+=line;
+  });
+  return y;
+}
+function elide(c,t,max){
+  t=String(t);
+  if(c.measureText(t).width<=max)return t;
+  while(t.length>1&&c.measureText(t+"…").width>max)t=t.slice(0,-1);
+  return t+"…";
+}
+function rrect(c,x0,y0,w,h,r){
+  c.beginPath();
+  if(c.roundRect)c.roundRect(x0,y0,w,h,r);else c.rect(x0,y0,w,h);
+}
+const fmtMi=v=>v>=1e6?(v/1e6).toLocaleString("pt-BR",{maximumFractionDigits:1})+" mi":v.toLocaleString("pt-BR");
+const STATS={};
+function estat(uf){
+  if(STATS[uf])return STATS[uf];
+  const todos=Object.values(R),reg=(todos.find(m=>m.uf===uf)||{}).regiao||"";
+  const q1=m=>String(m.quadrante||"").slice(0,2)==="Q1";
+  const agg=f=>{
+    let n=0,q=0,p=0,pq=0;
+    todos.forEach(m=>{
+      if(!f(m))return;
+      const pp=num(m.populacao)||0;
+      n++;p+=pp;
+      if(q1(m)){q++;pq+=pp}
+    });
+    return{n,p,pm:n?q/n:0,pp:p?pq/p:0};
+  };
+  const vp=m=>num(m.pib_pc!=null&&m.pib_pc!==""?m.pib_pc:(m.pares||{}).pib_pc_2023);
+  const fx=f=>{
+    const c=[0,0,0,0,0];let n=0;
+    todos.forEach(m=>{
+      if(!f(m))return;
+      const v=vp(m);
+      if(!Number.isFinite(v))return;
+      c[classe(v,PIB_CORTES)]++;n++;
+    });
+    return{c,n};
+  };
+  const sc=m=>(num((m.pares||{}).percentil_capacidade)||0)+(num((m.pares||{}).percentil_entrega)||0);
+  return STATS[uf]={
+    reg,uf:agg(m=>m.uf===uf),rg:agg(m=>m.regiao===reg),br:agg(()=>true),
+    pibUF:fx(m=>m.uf===uf),pibBR:fx(()=>true),
+    total:G.filter(g=>g.uf===uf).length,
+    casos:todos.filter(m=>m.uf===uf&&m.pares&&String(m.pares.situacao||"").trim()==="Supera as condições").sort((a,b)=>sc(b)-sc(a))
+  };
+}
+function legenda(c,lx,ly,legW,u,E,tipo,cont,tot){
+  c.textBaseline="alphabetic";c.textAlign="left";
+  c.fillStyle="#071d41";c.font=`700 ${16*u}px "Segoe UI",Arial,sans-serif`;c.fillText(E.titulo,lx,ly);ly+=16*u;
+  c.font=`400 ${13*u}px "Segoe UI",Arial,sans-serif`;
+  if(tipo==='riq'){
+    const cw=(legW-38*u)/3;
+    c.font=`600 ${11*u}px Arial`;c.fillStyle='#5c6b7d';
+    ['Até 30 mil','>30 a 60 mil','>60 mil'].forEach((v,j)=>c.fillText(v,lx+38*u+j*cw,ly+16*u));ly+=30*u;
+    Object.keys(Q).forEach(k=>{
+      c.fillStyle='#071d41';c.font=`700 ${12*u}px Arial`;c.fillText(k,lx,ly+22*u);
+      [0,1,2].forEach(t=>{
+        const xx=lx+36*u+t*cw,n=cont[k+'_'+t]||0;
+        c.fillStyle=shade(k,t);c.fillRect(xx,ly,cw-4*u,40*u);
+        c.fillStyle=t===0?'#071d41':'#fff';c.font=`700 ${13*u}px Arial`;c.fillText(n.toLocaleString('pt-BR'),xx+7*u,ly+17*u);
+        c.font=`400 ${10*u}px Arial`;c.fillText((n/tot*100).toLocaleString('pt-BR',{maximumFractionDigits:1})+'%',xx+7*u,ly+32*u);
+      });
+      ly+=46*u;
+    });
+    c.fillStyle='#5c6b7d';c.font=`400 ${10.5*u}px Arial`;
+    ly=wrapT(c,'PIB per capita em R$. Percentuais sobre todos os municípios do recorte.',lx,ly+15*u,legW,14*u)+12*u;
+    Object.entries(Q).forEach(([k,q])=>{
+      c.fillStyle=q.c;c.fillRect(lx,ly-9*u,9*u,9*u);c.fillStyle='#0f2341';c.font=`400 ${11*u}px Arial`;
+      ly=wrapT(c,q.t,lx+15*u,ly,legW-15*u,14*u)+7*u;
+    });
+    if(cont[null]){c.fillStyle='#5c6b7d';c.font=`400 ${11*u}px Arial`;ly=wrapT(c,'Sem dado: '+cont[null].toLocaleString('pt-BR')+' municípios',lx,ly+5*u,legW,14*u)}
+  }else{
+    E.itens.forEach(it=>{
+      const n=cont[it.k]||0;if(it.k==null&&!n)return;
+      ly+=22*u;const s=20*u;
+      c.fillStyle=it.cor;c.beginPath();c.roundRect?c.roundRect(lx,ly-s+4*u,s,s,4*u):c.rect(lx,ly-s+4*u,s,s);c.fill();
+      if(it.cor===BLUES[0]||it.cor===ND){c.strokeStyle="#b8c4d2";c.lineWidth=u;c.stroke()}
+      if(it.sim){c.fillStyle="#fff";c.font=`700 ${11*u}px "Segoe UI",Arial,sans-serif`;c.textAlign="center";c.fillText(it.sim,lx+s/2,ly-1*u);c.textAlign="left"}
+      c.fillStyle="#0f2341";c.font=`400 ${13*u}px "Segoe UI",Arial,sans-serif`;
+      const end=wrapT(c,it.txt,lx+s+10*u,ly-3*u,legW-s-10*u,15*u);ly=Math.max(ly,end-12*u);
+      c.fillStyle="#5c6b7d";c.font=`400 ${11.5*u}px "Segoe UI",Arial,sans-serif`;
+      c.fillText(`${n.toLocaleString("pt-BR")} municípios (${(n/tot*100).toLocaleString("pt-BR",{maximumFractionDigits:1})}%)`,lx+s+10*u,ly+12*u);
+      ly+=16*u;
+    });
+  }
+  ly+=30*u;c.fillStyle="#5c6b7d";c.font=`400 ${12*u}px "Segoe UI",Arial,sans-serif`;
+  c.fillText(`${tot.toLocaleString("pt-BR")} municípios no recorte`,lx,ly);
+  return ly;
+}
+function localizador(c,x0,y0,w,h,u,uf,enq){
+  c.fillStyle="#f6f8fb";rrect(c,x0,y0,w,h,10*u);c.fill();
+  c.strokeStyle="#dde5ee";c.lineWidth=u;c.stroke();
+  c.fillStyle="#1351b4";c.font=FN(700,10.5,u);c.textAlign="left";c.fillText("LOCALIZAÇÃO NO BRASIL",x0+14*u,y0+22*u);
+  const NB=brNucleo(),b=NB.b,cb=Math.cos(-14*Math.PI/180),aw=w-28*u,ah=h-46*u;
+  const sc=Math.min(aw/((b[2]-b[0])*cb),ah/(b[3]-b[1]));
+  const mw=(b[2]-b[0])*cb*sc,mh=(b[3]-b[1])*sc;
+  const ox=x0+(w-mw)/2,oy=y0+34*u+(ah-mh)/2;
+  const Pt=(lo,la)=>[ox+(lo-b[0])*cb*sc,oy+(b[3]-la)*sc];
+  const cinza=new Path2D(),azul=new Path2D();
+  G.forEach(g=>{
+    const alvo=g.uf===uf?azul:cinza;
+    g.rings.forEach(r=>{
+      if(NB.fora.has(r))return;
+      r.forEach((q,i)=>{const[X,Y]=Pt(q[0],q[1]);i?alvo.lineTo(X,Y):alvo.moveTo(X,Y)});
+      alvo.closePath();
+    });
+  });
+  c.lineJoin="round";
+  c.fillStyle="#c9d3de";c.fill(cinza,"evenodd");c.strokeStyle="#c9d3de";c.lineWidth=.5*u;c.stroke(cinza);
+  c.fillStyle="#1351b4";c.fill(azul,"evenodd");c.strokeStyle="#1351b4";c.lineWidth=.8*u;c.stroke(azul);
+  const eb=enq.b,p1=Pt(eb[0],eb[3]),p2=Pt(eb[2],eb[1]);
+  if(Math.max(p2[0]-p1[0],p2[1]-p1[1])<12*u){
+    c.strokeStyle="#1351b4";c.lineWidth=1.6*u;c.beginPath();c.arc((p1[0]+p2[0])/2,(p1[1]+p2[1])/2,9*u,0,Math.PI*2);c.stroke();
+  }
+}
+function escala(c,x0,y0,w,u,kmPx){
+  const cand=[1,2,5,10,20,25,50,100,150,200,250,300,500,1000],lim=110*u;
+  let L=cand[0];
+  cand.forEach(v=>{if(v/kmPx<=lim)L=v});
+  const px=L/kmPx,by=y0+16*u;
+  c.textAlign="left";c.fillStyle="#5c6b7d";c.font=FN(700,9.5,u);c.fillText("ESCALA GRÁFICA",x0,y0+8*u);
+  c.fillStyle="#071d41";c.fillRect(x0,by,px/2,6*u);
+  c.fillStyle="#fff";c.fillRect(x0+px/2,by,px/2,6*u);
+  c.strokeStyle="#071d41";c.lineWidth=.8*u;c.strokeRect(x0,by,px,6*u);
+  c.fillStyle="#33465e";c.font=FN(400,9.5,u);c.textAlign="center";
+  c.fillText("0",x0,by+18*u);
+  c.fillText(String(L/2).replace(".",","),x0+px/2,by+18*u);
+  c.fillText(L+" km",x0+px,by+18*u);
+  c.textAlign="left";c.fillStyle="#5c6b7d";c.font=FN(400,9,u);c.fillText("Projeção equirretangular",x0,by+33*u);
+  const nx=x0+w-16*u;
+  c.fillStyle="#071d41";c.beginPath();c.moveTo(nx,y0+16*u);c.lineTo(nx-7*u,y0+44*u);c.lineTo(nx,y0+38*u);c.lineTo(nx+7*u,y0+44*u);c.closePath();c.fill();
+  c.font=FN(800,12,u);c.textAlign="center";c.fillText("N",nx,y0+11*u);c.textAlign="left";
+}
+function cardQ1(c,x0,y0,w,u,S,uf){
+  const p=14*u;let y=y0+p;
+  c.textAlign="left";
+  c.fillStyle="#1351b4";c.font=FN(700,10.5,u);
+  c.fillText(elide(c,"POPULAÇÃO E QUADRANTE Q1 · RÉGUA NACIONAL",w-2*p),x0+p,y+9*u);y+=26*u;
+  c.fillStyle="#071d41";c.font=FN(800,26,u);c.fillText(fmtMi(S.uf.p),x0+p,y+14*u);y+=24*u;
+  c.fillStyle="#5c6b7d";c.font=FN(400,10.5,u);
+  y=wrapT(c,"habitantes em "+S.uf.n.toLocaleString("pt-BR")+" municípios classificados"+(S.total>S.uf.n?" (de "+S.total.toLocaleString("pt-BR")+" no estado)":""),x0+p,y+6*u,w-2*p,14*u)+4*u;
+  const linhas=[[uf,S.uf],[S.reg||"Região",S.rg],["Brasil",S.br]];
+  [["% dos municípios classificados em Q1","pm"],["% da população em Q1","pp"]].forEach(([tit,chave])=>{
+    c.fillStyle="#33465e";c.font=FN(700,10.5,u);c.textAlign="left";c.fillText(tit,x0+p,y+10*u);y+=19*u;
+    linhas.forEach(([lab,d],i)=>{
+      const v=d[chave],bx=x0+p+66*u,bw=w-2*p-66*u-36*u;
+      c.fillStyle=i===0?"#071d41":"#41546b";c.font=FN(i===0?700:400,10.5,u);c.textAlign="left";
+      c.fillText(elide(c,lab,62*u),x0+p,y+8*u);
+      c.fillStyle="#e4eaf1";rrect(c,bx,y+1*u,bw,8*u,4*u);c.fill();
+      if(v>0){c.fillStyle=Q.Q1.c;rrect(c,bx,y+1*u,Math.max(4*u,bw*v),8*u,4*u);c.fill()}
+      c.fillStyle="#071d41";c.font=FN(700,10.5,u);c.textAlign="right";c.fillText(Math.round(v*100)+"%",x0+w-p,y+8*u);c.textAlign="left";
+      y+=17*u;
+    });
+    y+=7*u;
+  });
+  return y-7*u;
+}
+function cardPib(c,x0,y0,w,u,S,uf){
+  const p=14*u;let y=y0+p;
+  c.textAlign="left";c.fillStyle="#1351b4";c.font=FN(700,10.5,u);
+  c.fillText(elide(c,"PIB PER CAPITA · MUNICÍPIOS POR FAIXA",w-2*p),x0+p,y+9*u);y+=24*u;
+  const f=v=>(v/1000).toLocaleString("pt-BR",{maximumFractionDigits:1});
+  const rot=["Até R$ "+f(PIB_CORTES[0])+" mil"];
+  for(let i=0;i<PIB_CORTES.length-1;i++)rot.push("R$ "+f(PIB_CORTES[i])+" a "+f(PIB_CORTES[i+1])+" mil");
+  rot.push("Acima de R$ "+f(PIB_CORTES[PIB_CORTES.length-1])+" mil");
+  const nU=S.pibUF.n||1,nB=S.pibBR.n||1,sh=i=>S.pibUF.c[i]/nU,sb=i=>S.pibBR.c[i]/nB;
+  const mx=Math.max(0.01,...rot.map((_,i)=>Math.max(sh(i),sb(i))));
+  const lw=108*u,cw=66*u,bx=x0+p+lw,bw=w-2*p-lw-cw;
+  rot.forEach((lab,i)=>{
+    c.fillStyle="#33465e";c.font=FN(400,10.5,u);c.textAlign="left";c.fillText(elide(c,lab,lw-6*u),x0+p,y+9*u);
+    c.fillStyle="#e4eaf1";rrect(c,bx,y+1*u,bw,9*u,4*u);c.fill();
+    const L=bw*sh(i)/mx;
+    if(L>0){c.fillStyle=BLUES[i];rrect(c,bx,y+1*u,Math.max(3*u,L),9*u,4*u);c.fill();c.strokeStyle="#9db5cf";c.lineWidth=.6*u;c.stroke()}
+    const tx=bx+bw*sb(i)/mx;c.fillStyle="#071d41";c.fillRect(tx-1*u,y-2*u,2*u,15*u);
+    c.font=FN(700,10.5,u);c.textAlign="right";
+    c.fillText(S.pibUF.c[i].toLocaleString("pt-BR")+" ("+Math.round(sh(i)*100)+"%)",x0+w-p,y+9*u);
+    c.textAlign="left";y+=22*u;
+  });
+  const sem=S.total-S.pibUF.n;
+  c.fillStyle="#5c6b7d";c.font=FN(400,9.5,u);
+  y=wrapT(c,"Barra: este estado. Traço escuro: participação da faixa no Brasil."+(sem>0?" "+sem.toLocaleString("pt-BR")+(sem===1?" município sem":" municípios sem")+" dado de PIB.":""),x0+p,y+4*u,w-2*p,12.5*u);
+  return y-8*u;
+}
+function cardCasos(c,x0,y0,w,u,S,uf){
+  const p=14*u;let y=y0+p;
+  c.textAlign="left";c.fillStyle="#1351b4";c.font=FN(700,10.5,u);
+  c.fillText(elide(c,"CASOS PARA OLHAR · SUPERAM AS CONDIÇÕES",w-2*p),x0+p,y+9*u);y+=24*u;
+  c.fillStyle="#5c6b7d";c.font=FN(400,10,u);
+  y=wrapT(c,"Abaixo das medianas nacionais, mas entre os destaques do grupo de pares de riqueza e porte semelhantes.",x0+p,y+2*u,w-2*p,13*u)+4*u;
+  const n=S.casos.length;
+  if(!n){
+    c.fillStyle="#33465e";c.font=FN(400,11,u);c.fillText("Nenhum município nessa situação no estado.",x0+p,y+10*u);
+    return y+14*u;
+  }
+  c.fillStyle="#071d41";c.font=FN(700,11,u);
+  c.fillText(n.toLocaleString("pt-BR")+(n===1?" município":" municípios")+" no estado",x0+p,y+10*u);y+=20*u;
+  S.casos.slice(0,5).forEach(m=>{
+    const pc=Math.round((num(m.pares.percentil_capacidade)||0)*100),pe=Math.round((num(m.pares.percentil_entrega)||0)*100);
+    c.fillStyle="#071d41";c.font=FN(700,11.5,u);c.textAlign="left";c.fillText(elide(c,m.municipio+" - "+m.uf,w-2*p),x0+p,y+10*u);
+    c.fillStyle="#5c6b7d";c.font=FN(400,10,u);c.fillText("Capacidade "+pc+"% · Entrega "+pe+"% do grupo",x0+p,y+23*u);
+    y+=31*u;
+  });
+  if(n>5){c.fillStyle="#5c6b7d";c.font=FN(400,10,u);c.fillText("+ "+(n-5).toLocaleString("pt-BR")+(n-5===1?" outro município":" outros municípios"),x0+p,y+8*u);y+=14*u}
+  return y-4*u;
+}
+function desenhar(cv,W){
+  const tipo=$("#tipo").value,sel=$("#uf").value,ent=$("#entorno").checked&&sel;
+  const mostrarInfo=!!sel&&$("#info").checked;
+  const E=esquema(tipo,sel);
+  const foco=G.filter(g=>!sel||g.uf===sel);
+  const enq=sel?enquadrar(sel):null;
+  let b;
+  if(sel){
+    b=enq.b.slice();
+    const mx=(b[2]-b[0])*.04,my=(b[3]-b[1])*.04;
+    b=[b[0]-mx,b[1]-my,b[2]+mx,b[3]+my];
+  }else{
+    b=[1e9,1e9,-1e9,-1e9];
+    foco.forEach(g=>{b[0]=Math.min(b[0],g.b[0]);b[1]=Math.min(b[1],g.b[1]);b[2]=Math.max(b[2],g.b[2]);b[3]=Math.max(b[3],g.b[3])});
+  }
+  const lat=(b[1]+b[3])/2,cs=Math.cos(lat*Math.PI/180);
+  const u=W/1000,pad=40*u,footH=110*u,legW=(sel?300:285)*u,mapW=W-2*pad-legW-30*u;
+  let k=mapW/((b[2]-b[0])*cs),mapH=(b[3]-b[1])*k;
+  const maxH=W*(sel?.82:.95);
+  if(mapH>maxH){k*=maxH/mapH;mapH=maxH}
+  const dry=seco(document.createElement("canvas").getContext("2d"));
+  const lx=W-pad-legW,tot=foco.length,cont={};
+  foco.forEach(g=>{const v=E.val(g);cont[v]=(cont[v]||0)+1});
+  const titulo=$("#titulo").value,sub=$("#sub").value;
+  if(sel)bandeira(sel);
+  const fl=sel?FLAGS[sel]:null,flOk=!!(fl&&fl.complete);
+  let headH;
+  if(sel){
+    dry.font=FN(700,23,u);
+    const yT=wrapT(dry,titulo,pad,pad+92*u,W-2*pad,28*u);
+    dry.font=FN(400,14,u);
+    headH=wrapT(dry,sub,pad,yT-4*u,W-2*pad,18*u)+16*u;
+  }else headH=128*u;
+  let mainBottom,ex=null;const cards=[];
+  if(!sel){
+    const legH=(tipo==='riq'?510:100+E.itens.length*46)*u;
+    mainBottom=headH+Math.max(mapH,legH);
+  }else{
+    const legY=legenda(dry,lx,headH+10*u,legW,u,E,tipo,cont,tot);
+    const insY=legY+28*u,insH=210*u,escY=insY+insH+14*u,escH=58*u;
+    let Lc=headH+mapH+6*u+(enq.ilhas.length?22*u:0),Rc=escY+escH;
+    ex={insY,insH,escY};
+    if(mostrarInfo){
+      const S=estat(sel);
+      [cardQ1,cardPib,cardCasos].forEach(fn=>{
+        const esq=Lc<=Rc,x0=esq?pad:lx,w0=esq?mapW:legW,y0=(esq?Lc:Rc)+18*u;
+        const h=fn(dry,x0,y0,w0,u,S,sel)-y0+14*u;
+        cards.push({fn,x0,y0,w0,h});
+        if(esq)Lc=y0+h;else Rc=y0+h;
+      });
+    }
+    mainBottom=Math.max(Lc,Rc);
+  }
+  const H=Math.round(mainBottom+footH+pad);
+  cv.width=W;cv.height=H;
+  const x=cv.getContext("2d");
+  x.fillStyle="#fff";x.fillRect(0,0,W,H);
+  const ox=pad+(mapW-(b[2]-b[0])*cs*k)/2,oy=headH;
+  const P=(lon,la)=>[ox+(lon-b[0])*cs*k,oy+(b[3]-la)*k];
+  const path=g=>{
+    const p=new Path2D();
+    g.rings.forEach(r=>{
+      if(sel&&enq.fora.has(r))return;
+      r.forEach((q,i)=>{const[X,Y]=P(q[0],q[1]);i?p.lineTo(X,Y):p.moveTo(X,Y)});
+      p.closePath();
+    });
+    return p;
+  };
+  const lw=+$("#traco").value*u*(sel?1.7:1);
+  x.save();x.beginPath();x.rect(pad,headH-5*u,mapW,sel?mapH+10*u:H-headH-footH);x.clip();
+  if(ent){G.forEach(g=>{if(g.uf===sel)return;x.fillStyle="#eef1f5";x.fill(path(g),"evenodd")})}
+  foco.forEach(g=>{
+    const v=E.val(g),p=path(g);
+    x.fillStyle=E.cor(v);x.fill(p,"evenodd");
+    if(lw){x.strokeStyle="rgba(240,242,244,.55)";x.lineWidth=lw;x.lineJoin="round";x.stroke(p)}
+  });
+  x.restore();
+  x.textBaseline="alphabetic";x.textAlign="left";
+  if(sel){
+    const fh=52*u;let nx=pad;
+    if(flOk){
+      const r=(fl.naturalWidth&&fl.naturalHeight)?fl.naturalWidth/fl.naturalHeight:1.43,fw=fh*r;
+      x.drawImage(fl,pad,pad,fw,fh);x.strokeStyle="#cfd8e3";x.lineWidth=u;x.strokeRect(pad,pad,fw,fh);
+      nx=pad+fw+18*u;
+    }
+    x.fillStyle="#071d41";x.font=FN(800,44,u);x.fillText((NOME[sel]||sel).toLocaleUpperCase("pt-BR"),nx,pad+fh-8*u);
+    x.font=FN(700,23,u);
+    const yT=wrapT(x,titulo,pad,pad+92*u,W-2*pad,28*u);
+    x.fillStyle="#5c6b7d";x.font=FN(400,14,u);
+    wrapT(x,sub,pad,yT-4*u,W-2*pad,18*u);
+  }else{
+    x.fillStyle="#071d41";x.font=`700 ${25*u}px "Segoe UI",Arial,sans-serif`;
+    wrapT(x,titulo,pad,pad+20*u,W-2*pad,28*u);
+    x.fillStyle="#5c6b7d";x.font=`400 ${14*u}px "Segoe UI",Arial,sans-serif`;
+    wrapT(x,sub,pad,pad+65*u,W-2*pad,18*u);
+  }
+  legenda(x,lx,headH+10*u,legW,u,E,tipo,cont,tot);
+  if(sel){
+    localizador(x,lx,ex.insY,legW,ex.insH,u,sel,enq);
+    escala(x,lx,ex.escY,legW,u,111.32/k);
+    if(enq.ilhas.length){
+      x.fillStyle="#5c6b7d";x.font=FN(400,10.5,u);x.textAlign="left";
+      wrapT(x,"Fora do enquadramento: "+enq.ilhas.join("; ")+".",pad,headH+mapH+22*u,mapW,13*u);
+    }
+    const S=estat(sel);
+    cards.forEach(cd=>{
+      x.fillStyle="#f6f8fb";rrect(x,cd.x0,cd.y0,cd.w0,cd.h,10*u);x.fill();
+      x.strokeStyle="#dde5ee";x.lineWidth=u;x.stroke();
+      cd.fn(x,cd.x0,cd.y0,cd.w0,u,S,sel);
+    });
+  }
+  x.fillStyle="#5c6b7d";x.font=`400 ${12*u}px "Segoe UI",Arial,sans-serif`;
+  x.strokeStyle="#dde5ee";x.lineWidth=.7*u;x.beginPath();x.moveTo(pad,H-footH);x.lineTo(W-pad,H-footH);x.stroke();
+  x.fillStyle="#5c6b7d";x.font=`400 ${10.5*u}px "Segoe UI",Arial,sans-serif`;
+  wrapT(x,$("#fonte").value,pad,H-footH+20*u,W-2*pad,15*u);
+  if(tipo==='riq')wrapT(x,'Faixas de PIB per capita: até R$ 30 mil; acima de R$ 30 mil até R$ 60 mil; acima de R$ 60 mil. Quadrantes mantidos na régua nacional.',pad,H-25*u,W-2*pad,13*u);
+}
+
+let tm=null;
+let BAIXAR_PRONTO=false;
+function faixaCarga(cv){
+  if(!pend())return;
+  const x=cv.getContext("2d"),w=cv.width,u=w/1000,txt="Carregando dados da variável… "+FEITOS.toLocaleString("pt-BR")+" de "+TOTAL.toLocaleString("pt-BR");
+  x.save();
+  x.font="700 "+(15*u)+"px 'Segoe UI',Arial,sans-serif";
+  const tw=x.measureText(txt).width+36*u,bx=(w-tw)/2,by=cv.height*.4;
+  x.fillStyle="rgba(7,29,65,.92)";rrect(x,bx,by,tw,40*u,10*u);x.fill();
+  x.fillStyle="#fff";x.textAlign="center";x.textBaseline="middle";x.fillText(txt,w/2,by+20*u);
+  x.restore();
+}
+function render(){
+  clearTimeout(tm);
+  tm=setTimeout(()=>{
+    try{desenhar($("#prev"),1400);faixaCarga($("#prev"));statusComp();err("")}catch(e){err(e.message)}
+  },60);
+}
+function mudouTipo(){
+  BAIXAR_PRONTO=false;
+  const t=$("#tipo").value;
+  $("#varBox").hidden=t!=="var";
+  if(t==="var"){infoVar();carregarComponentes()}
+  autoTextos();render();
+}
+$("#tipo").onchange=mudouTipo;
+$("#uf").onchange=()=>{BAIXAR_PRONTO=false;ufMudou();if($("#tipo").value==="var"){infoVar();carregarComponentes()}autoTextos();render()};
+$("#varSel").onchange=()=>{BAIXAR_PRONTO=false;infoVar();autoTextos();render()};
+["#entorno","#info","#traco"].forEach(s=>$(s).onchange=render);
+["#titulo","#sub","#fonte"].forEach(s=>$(s).oninput=render);
+$("#auto").onclick=()=>{autoTextos();render()};
+function baixarAgora(){
+  const cv=document.createElement("canvas");desenhar(cv,+$("#res").value);
+  const nome=($("#titulo").value+" "+($("#uf").value||"BR")).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^A-Za-z0-9]+/g,"_").toLowerCase();
+  cv.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=nome+".png";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)},"image/png");
+}
+window.__baixarQuandoPronto=()=>{if(BAIXAR_PRONTO&&!pend()){BAIXAR_PRONTO=false;baixarAgora()}};
+$("#baixar").onclick=()=>{
+  if(pend()){BAIXAR_PRONTO=true;statusComp();return}
+  baixarAgora();
+};
+popularVar();autoTextos();render();
+
+window.__mapas={desenhar};
+})();
+</script>
+
+</body>
+</html>

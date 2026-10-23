@@ -72,10 +72,68 @@ footer{padding:26px 28px;color:var(--muted);font-size:13px;text-align:center;lin
 @media(max-width:520px){.top{padding:10px 16px}.top .org{display:none}.hero{padding:44px 20px 52px}section{padding:44px 20px}.cta{width:100%;justify-content:center}.hero p{font-size:16.5px}}
 </style>
 <div class="pg">
-<header class="top">
-  <div class="org"><b>Ministério da Gestão e da Inovação em Serviços Públicos</b>Secretaria Extraordinária para a Transformação do Estado</div>
-  <a class="go" href="painel.html">Abrir o painel →</a>
+<!-- BARRA_COMUM_V3_INICIO -->
+<style>
+:root{--sx-h:68px}
+@media (min-width:761px) and (max-width:1699px),(min-width:761px) and (max-height:899px){:root{--sx-h:58px}}
+@media (max-width:760px){:root{--sx-h:56px}}
+body{padding-top:var(--sx-h)!important;box-sizing:border-box}
+.sx-top{position:fixed;top:0;left:0;right:0;z-index:2147483000;height:var(--sx-h);display:flex;align-items:center;gap:22px;
+padding:0 24px;background:#071d41;color:#fff;font:14px/1.45 "Segoe UI",Inter,Verdana,Arial,sans-serif;box-sizing:border-box;text-align:left}
+.sx-top *{box-sizing:border-box}
+.sx-brand{display:flex;align-items:center;gap:16px;min-width:0}
+.sx-org{padding-right:16px;border-right:1px solid rgba(255,255,255,.25);font-size:11px;line-height:1.25;color:#cfdcf0;max-width:190px}
+.sx-ttl{min-width:0}
+.sx-top .sx-h1{display:block;margin:0;font-size:19px;font-weight:700;line-height:1.45;letter-spacing:-.01em;color:#fff;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sx-ttl small{display:block;color:#b9c9e3;font-size:11.5px;line-height:1.45}
+.sx-menu{display:flex;gap:4px;margin-left:auto}
+.sx-top .sx-menu a{display:inline-flex;align-items:center;height:var(--sx-h);padding:0 13px;border-bottom:3px solid transparent;color:#cfdcf0;font-size:13px;font-weight:400;text-decoration:none;white-space:nowrap}
+.sx-top .sx-menu a:hover{color:#fff}
+.sx-top .sx-menu a.sx-on{color:#fff;font-weight:700;border-bottom-color:#6ea8ff}
+.sx-burger{display:none;place-items:center;flex:0 0 44px;height:44px;border:0;border-radius:10px;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer}
+@media (min-width:761px) and (max-width:1699px),(min-width:761px) and (max-height:899px){
+.sx-top .sx-menu a{padding:0 10px;font-size:12.5px}
+.sx-top .sx-h1{font-size:17px}.sx-ttl small{font-size:11px}.sx-org{font-size:10px;max-width:170px}}
+@media (max-width:760px){
+.sx-top{gap:8px;padding:0 10px 0 14px}
+.sx-org{display:none}
+.sx-brand{flex:1;min-width:0;gap:0}
+.sx-top .sx-h1{font-size:15px}
+.sx-ttl small{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sx-burger{display:grid}
+.sx-menu{display:none;position:fixed;top:calc(var(--sx-h) + 2px);right:8px;flex-direction:column;gap:2px;min-width:230px;margin:0;padding:6px;border:1px solid #dde5ee;border-radius:14px;background:#fff;box-shadow:0 16px 40px rgba(7,29,65,.22)}
+.sx-open .sx-menu{display:flex}
+.sx-top .sx-menu a{height:48px;padding:0 14px;border:0;border-radius:10px;color:#071d41;font-size:14px}
+.sx-top .sx-menu a:hover{color:#071d41;background:#f2f6fb}
+.sx-top .sx-menu a.sx-on{background:#e8f1ff;color:#071d41;font-weight:700}}
+</style>
+<header class="sx-top" id="sxTop">
+ <div class="sx-brand">
+  <div class="sx-org">Ministério da Gestão e da Inovação em Serviços Públicos</div>
+  <div class="sx-ttl"><a class="sx-h1" href="index.html" title="Voltar à tela inicial">Capacidade estatal e entrega nos municípios brasileiros</a>
+  <small>Painel municipal · dados do estudo da Enap · versão 13</small></div>
+ </div>
+ <nav class="sx-menu" aria-label="Seções">
+  <a href="index.html" class="sx-on" aria-current="page">Início</a>
+  <a href="painel.html">Painel</a>
+  <a href="painel.html#sobre">Sobre o estudo</a>
+  <a href="painel.html#metodo">Metodologia</a>
+  <a href="painel.html#faq">Perguntas frequentes</a>
+  <a href="mapas.html">Gerar mapas</a>
+ </nav>
+ <button class="sx-burger" id="sxBurger" type="button" aria-label="Menu">☰</button>
 </header>
+<script>
+(function(){
+  var h=document.getElementById('sxTop'),b=document.getElementById('sxBurger');
+  if(!h||!b)return;
+  b.onclick=function(e){e.stopPropagation();h.classList.toggle('sx-open')};
+  document.addEventListener('click',function(e){if(!e.target.closest('.sx-menu,.sx-burger'))h.classList.remove('sx-open')});
+})();
+</script>
+<!-- BARRA_COMUM_V3_FIM -->
+
+
 
 <section class="hero"><div class="wide">
   <h1>Capacidade estatal e entrega nos municípios brasileiros</h1>
@@ -173,5 +231,16 @@ footer{padding:26px 28px;color:var(--muted);font-size:13px;text-align:center;lin
 <footer>Painel: Secretaria Extraordinária para a Transformação do Estado · Ministério da Gestão e da Inovação em Serviços Públicos<br>Estudo e tipologia: Coordenação-Geral de Ciência de Dados · Diretoria de Altos Estudos · Escola Nacional de Administração Pública (Enap)</footer>
 </div>
 
+<!-- INTEGRACAO_GERADOR_V3_INICIO -->
+<section style="padding:20px 24px 34px;background:#f3f6fa">
+  <div style="max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;background:#fff;border:1px solid #dde5ee;border-radius:14px;padding:19px 24px;font-family:'Segoe UI',Arial,sans-serif">
+    <div>
+      <strong style="display:block;color:#071d41;font-size:17px">Gerador de mapas</strong>
+      <span style="color:#5c6b7d;font-size:14px">Crie mapas tem&aacute;ticos e exporte imagens em alta resolu&ccedil;&atilde;o.</span>
+    </div>
+    <a href="mapas.html" style="display:inline-block;background:#1351b4;color:#fff;text-decoration:none;padding:12px 20px;border-radius:9px;font-weight:700">Abrir gerador &rarr;</a>
+  </div>
+</section>
+<!-- INTEGRACAO_GERADOR_V3_FIM -->
 </body>
 </html>
